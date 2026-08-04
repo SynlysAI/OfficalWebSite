@@ -873,13 +873,13 @@ a:focus-visible {
 }
 
 .proof-stat--stagger-1 {
-  --sx: 20px;
-  --sy: 12px;
+  --sx: 0px;
+  --sy: 0px;
 }
 
 .proof-stat--stagger-2 {
-  --sx: 40px;
-  --sy: 24px;
+  --sx: 0px;
+  --sy: 0px;
 }
 
 /* --- 单个卡片 --- */
@@ -1102,12 +1102,12 @@ a:focus-visible {
   }
 
   .proof-stat--stagger-1 {
-    --sx: 18px;
+    --sx: 0px;
     --sy: 0px;
   }
 
   .proof-stat--stagger-2 {
-    --sx: 38px;
+    --sx: 0px;
     --sy: 0px;
   }
 

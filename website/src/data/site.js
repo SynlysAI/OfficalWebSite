@@ -37,9 +37,9 @@ export const copy = {
     navigation: [
       { label: '首页', to: { name: 'home' } },
       { label: '行业挑战', to: { name: 'home', hash: '#challenges' } },
-      { label: '关于我们', to: { name: 'home', hash: '#about' } },
       { label: '产品矩阵', to: { name: 'home', hash: '#products' } },
       { label: '平台能力', to: { name: 'home', hash: '#matrix' } },
+      { label: '关于我们', to: { name: 'home', hash: '#about' } },
       { label: '更新日志', to: { name: 'changelog' } },
     ],
     footerLinks: [
@@ -184,7 +184,17 @@ export const copy = {
         {
           code: '02',
           title: '智能分析',
-          text: '由 Spec Agent 与 Poly Agent 承接谱图解析、算法运行、知识检索、候选建议、实验方案生成和结果验证与报告回写。',
+          text: '由 Spec Agent 与 Poly Agent 承接谱图解析、算法运行、知识检索、候选建议、实验方案生成、实验数据挖掘与建模、多目标优化与决策和结果验证与报告回写。',
+        },
+        {
+          code: '03',
+          title: '材料研发',
+          text: 'Poly Agent 组织算法货架、知识库、计算任务与结果回看，支撑高分子材料研发协作。',
+        },
+        {
+          code: '04',
+          title: '实验执行',
+          text: 'SpecLabOS 承接实验任务下发、设备接入、状态回传与执行证据沉淀。',
         },
       ],
     },
@@ -202,7 +212,17 @@ export const copy = {
         {
           code: '02',
           title: '智能分析',
-          text: '由 Spec Agent 与 Poly Agent 承接谱图解析、算法运行、知识检索、候选建议、实验方案生成和结果验证与报告回写。',
+          text: '由 Spec Agent 与 Poly Agent 承接谱图解析、算法运行、知识检索、候选建议、实验方案生成、实验数据挖掘与建模、多目标优化与决策和结果验证与报告回写。',
+        },
+        {
+          code: '03',
+          title: '实验协作',
+          text: 'SpecLabOS 接入实验系统与设备软件，回传运行状态与实验结果。',
+        },
+        {
+          code: '04',
+          title: '证据回写',
+          text: '报告、数据、来源、贡献与审计事件沉淀为下一轮可复用的研发上下文。',
         },
       ],
     },
@@ -287,9 +307,9 @@ export const copy = {
     navigation: [
       { label: 'Home', to: { name: 'home' } },
       { label: 'Challenges', to: { name: 'home', hash: '#challenges' } },
-      { label: 'About', to: { name: 'home', hash: '#about' } },
       { label: 'Products', to: { name: 'home', hash: '#products' } },
       { label: 'Capabilities', to: { name: 'home', hash: '#matrix' } },
+      { label: 'About', to: { name: 'home', hash: '#about' } },
       { label: 'Changelog', to: { name: 'changelog' } },
     ],
     footerLinks: [
@@ -436,7 +456,17 @@ export const copy = {
         {
           code: '02',
           title: 'Intelligent analysis',
-          text: 'Spec Agent and Poly Agent handle spectral parsing, algorithm runs, knowledge retrieval, candidate suggestions, experiment plan generation, and result verification with report write-back.',
+          text: 'Spec Agent and Poly Agent handle spectral parsing, algorithm runs, knowledge retrieval, candidate suggestions, experiment plan generation, experimental data mining and modeling, multi-objective optimization and decision-making, and result verification with report write-back.',
+        },
+        {
+          code: '03',
+          title: 'Materials R&D',
+          text: 'Poly Agent organizes algorithm shelves, knowledge bases, computation tasks, and result review to support polymer materials R&D collaboration.',
+        },
+        {
+          code: '04',
+          title: 'Lab execution',
+          text: 'SpecLabOS handles experiment dispatch, device access, state return, and execution evidence for the platform loop.',
         },
       ],
     },
@@ -454,7 +484,7 @@ export const copy = {
         {
           code: '02',
           title: 'Intelligent analysis',
-          text: 'Spec Agent and Poly Agent handle spectral parsing, algorithm runs, knowledge retrieval, candidate suggestions, experiment plan generation, and result verification with report write-back.',
+          text: 'Spec Agent and Poly Agent handle spectral parsing, algorithm runs, knowledge retrieval, candidate suggestions, experiment plan generation, experimental data mining and modeling, multi-objective optimization and decision-making, and result verification with report write-back.',
         },
         {
           code: '03',

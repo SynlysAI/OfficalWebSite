@@ -20,10 +20,10 @@ const { content, language } = useSiteContent()
 
     <ChallengeBanners id="challenges" :content="content.challengeBanners" />
 
-    <ProofStrip id="about" :content="content.about" :language="language" />
-
     <ProductMatrix id="products" :content="content.products" />
 
     <ModuleGrid id="matrix" :content="content.matrix" :language="language" :showcase="content.showcase" />
+
+    <ProofStrip id="about" :content="content.about" :language="language" />
   </main>
 </template>
