@@ -1,6 +1,9 @@
 :root {
   color-scheme: light;
-  --font-body: "PingFang SC", "Microsoft YaHei UI", "Noto Sans SC", sans-serif;
+  --font-body: "Songti SC", "STSong", "Noto Serif CJK SC", "Source Han Serif SC", "SimSun", Georgia, "Times New Roman", serif;
+  --font-heading: "Songti SC", "STSong", "Noto Serif CJK SC", "Source Han Serif SC", "SimSun", Georgia, "Times New Roman", serif;
+  --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "SF Mono", "Fira Code", "Fira Mono", "Roboto Mono", "Menlo", "Courier New", monospace;
   --bg: #f7f9fc;
   --bg-soft: #eef4f8;
   --surface: #ffffff;
@@ -162,6 +165,7 @@ a:focus-visible {
   padding: 0 9px;
   border-radius: 999px;
   color: var(--text-soft);
+  font-family: var(--font-ui);
   font-size: 13px;
   transition: background 0.18s ease, color 0.18s ease;
 }
@@ -199,7 +203,7 @@ a:focus-visible {
   background: transparent;
   color: var(--text-muted);
   cursor: pointer;
-  font-family: var(--font-body);
+  font-family: var(--font-ui);
   font-size: 12px;
   font-weight: 500;
 }
@@ -220,7 +224,7 @@ a:focus-visible {
   border: 1px solid transparent;
   border-radius: 999px;
   cursor: pointer;
-  font-family: var(--font-body);
+  font-family: var(--font-ui);
   font-size: 14px;
   font-weight: 500;
   line-height: 1.2;
@@ -257,24 +261,57 @@ a:focus-visible {
 }
 
 .hero-band {
+  --mouse-x: 50%;
+  --mouse-y: 50%;
   position: relative;
   display: flex;
+  flex-direction: column;
   min-height: calc(100vh - 74px);
   overflow: hidden;
-  padding: 76px 0 54px;
+  padding: 76px 0 40px;
   background:
-    linear-gradient(90deg, rgba(247, 249, 252, 0.96), rgba(247, 249, 252, 0.72) 44%, rgba(247, 249, 252, 0.32)),
+    radial-gradient(ellipse 900px 600px at var(--mouse-x) var(--mouse-y), rgba(23, 105, 224, 0.07), transparent 60%),
+    radial-gradient(ellipse 600px 500px at 80% 20%, rgba(15, 159, 143, 0.06), transparent 55%),
+    radial-gradient(ellipse 500px 400px at 20% 70%, rgba(112, 87, 200, 0.05), transparent 55%),
+    linear-gradient(90deg, rgba(247, 249, 252, 0.94), rgba(247, 249, 252, 0.68) 44%, rgba(247, 249, 252, 0.28)),
     var(--hero-bg) center / cover no-repeat,
     var(--bg);
+  transition: background 0.4s ease-out;
+}
+
+.hero-band::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(circle 280px at var(--mouse-x) var(--mouse-y), rgba(255, 255, 255, 0.55), transparent 70%);
+  opacity: 0.7;
 }
 
 .hero-band::after {
   content: "";
   position: absolute;
   inset: auto 0 0;
-  height: 120px;
+  height: 100px;
   pointer-events: none;
-  background: linear-gradient(180deg, transparent, var(--bg));
+  z-index: 2;
+  background: linear-gradient(180deg, transparent, var(--bg) 90%);
+}
+
+.hero-glow {
+  position: absolute;
+  z-index: 0;
+  width: 640px;
+  height: 640px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(23, 105, 224, 0.13), rgba(15, 159, 143, 0.06) 40%, transparent 70%);
+  filter: blur(60px);
+  top: calc(var(--mouse-y) - 320px);
+  left: calc(var(--mouse-x) - 320px);
+  transition: top 0.6s ease-out, left 0.6s ease-out;
 }
 
 .hero-layout {
@@ -286,12 +323,12 @@ a:focus-visible {
 
 .hero-copy {
   width: min(720px, 100%);
-  padding: 34px 36px;
-  border: 1px solid rgba(219, 228, 239, 0.78);
+  padding: 38px 40px;
+  border: 1px solid rgba(219, 228, 239, 0.72);
   border-radius: var(--radius);
-  background: rgba(255, 255, 255, 0.64);
-  box-shadow: 0 18px 48px rgba(23, 42, 73, 0.1);
-  backdrop-filter: blur(18px);
+  background: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 18px 52px rgba(23, 42, 73, 0.09);
+  backdrop-filter: blur(20px);
 }
 
 .proof-stat,
@@ -313,6 +350,7 @@ a:focus-visible {
   align-items: center;
   gap: 8px;
   color: var(--primary-strong);
+  font-family: var(--font-ui);
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -332,13 +370,19 @@ a:focus-visible {
   height: 8px;
   border-radius: 999px;
   background: var(--teal);
+  animation: hero-dot-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes hero-dot-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
 }
 
 .hero-copy h1,
 .section-head h2,
 .release-hero h1 {
-  font-family: var(--font-body);
-  font-weight: 500;
+  font-family: var(--font-heading);
+  font-weight: 600;
   letter-spacing: 0;
 }
 
@@ -378,7 +422,7 @@ a:focus-visible {
 }
 
 .hero-pill-row {
-  margin-top: 28px;
+  margin-top: 24px;
 }
 
 .hero-pill,
@@ -391,42 +435,76 @@ a:focus-visible {
   border-radius: 999px;
   background: var(--surface-tint);
   color: var(--text-soft);
+  font-family: var(--font-ui);
   font-size: 12px;
   line-height: 1.3;
 }
 
-.hero-highlight-grid {
+/* --- Capability cards (below hero copy) --- */
+.hero-capability-row {
+  position: relative;
+  z-index: 3;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-  margin-top: 28px;
+  gap: 16px;
+  margin-top: 36px;
 }
 
-.hero-highlight {
+.hero-capability {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
   min-width: 0;
-  padding: 16px;
-  border: 1px solid var(--line);
+  padding: 22px 24px;
+  border: 1px solid rgba(219, 228, 239, 0.68);
   border-radius: var(--radius);
-  background: linear-gradient(180deg, #fff, #f5f8fc);
+  background: rgba(255, 255, 255, 0.58);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 8px 28px rgba(23, 42, 73, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
-.hero-highlight strong {
-  display: block;
-  font-size: 28px;
+.hero-capability:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 36px rgba(23, 42, 73, 0.11);
+  border-color: rgba(23, 105, 224, 0.24);
+}
+
+.hero-capability__index {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, rgba(23, 105, 224, 0.12), rgba(15, 159, 143, 0.08));
+  color: var(--primary-strong);
+  font-family: var(--font-heading);
+  font-size: 15px;
   font-weight: 600;
   line-height: 1;
 }
 
-.hero-highlight span {
+.hero-capability__body strong {
   display: block;
-  margin-top: 8px;
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.hero-capability__body span {
+  display: block;
+  margin-top: 6px;
   color: var(--text-muted);
-  font-size: 12px;
-  line-height: 1.4;
+  font-size: 13px;
+  line-height: 1.55;
 }
 
 .proof-band {
-  padding: 28px 0 0;
+  padding: 80px 0 0;
 }
 
 .challenge-band {
@@ -438,7 +516,7 @@ a:focus-visible {
 }
 
 .section-band--matrix {
-  padding-top: 68px;
+  padding-top: 58px;
 }
 
 .section-head {
@@ -479,7 +557,7 @@ a:focus-visible {
 .workflow-card,
 .module-card {
   min-width: 0;
-  padding: 20px;
+  padding: 18px 20px;
 }
 
 .proof-stat strong,
@@ -502,47 +580,42 @@ a:focus-visible {
 .product-card p,
 .challenge-banner p {
   display: block;
-  margin: 12px 0 0;
+  margin: 10px 0 0;
   color: var(--text-soft);
-  font-size: 14px;
-  line-height: 1.75;
+  font-size: 13px;
+  line-height: 1.7;
   overflow-wrap: anywhere;
 }
 
 .challenge-list {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
 }
 
 .challenge-banner {
   --challenge-accent: var(--primary);
   position: relative;
-  display: grid;
-  grid-template-columns: 132px minmax(0, 1fr);
   min-width: 0;
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background:
-    linear-gradient(90deg, color-mix(in srgb, var(--challenge-accent) 12%, white), rgba(255, 255, 255, 0.92) 38%),
+    linear-gradient(180deg, color-mix(in srgb, var(--challenge-accent) 8%, white), rgba(255, 255, 255, 0.94) 36%),
     #fff;
   box-shadow: var(--shadow);
 }
 
-.challenge-banner:nth-child(odd) {
-  margin-right: 28px;
-}
-
-.challenge-banner:nth-child(even) {
-  margin-left: 28px;
+/* 5 items: last one spans full width */
+.challenge-banner:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
 }
 
 .challenge-banner::before {
   content: "";
   position: absolute;
-  inset: 0 auto 0 0;
-  width: 5px;
+  inset: 0 0 auto;
+  height: 4px;
   background: var(--challenge-accent);
 }
 
@@ -569,18 +642,18 @@ a:focus-visible {
 .challenge-banner__code {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 20px;
+  gap: 12px;
+  padding: 18px 22px 0;
   color: color-mix(in srgb, var(--challenge-accent) 72%, #14213d);
-  font-family: var(--font-body);
-  font-size: 64px;
-  font-weight: 500;
+  font-family: var(--font-heading);
+  font-size: 42px;
+  font-weight: 600;
   line-height: 1;
 }
 
 .challenge-banner__body {
   min-width: 0;
-  padding: 24px 28px 26px;
+  padding: 12px 22px 20px;
 }
 
 .challenge-banner__meta {
@@ -594,10 +667,10 @@ a:focus-visible {
 .challenge-banner__meta strong {
   display: inline-flex;
   align-items: center;
-  min-height: 28px;
-  padding: 0 10px;
+  min-height: 26px;
+  padding: 0 8px;
   border-radius: 999px;
-  font-size: 12px;
+  font-size: 11px;
   line-height: 1.35;
 }
 
@@ -616,17 +689,20 @@ a:focus-visible {
 }
 
 .challenge-banner h3 {
-  margin: 16px 0 0;
-  max-width: 920px;
-  font-family: var(--font-body);
-  font-size: 28px;
-  font-weight: 500;
-  line-height: 1.26;
+  margin: 10px 0 0;
+  max-width: 100%;
+  font-family: var(--font-heading);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.32;
   overflow-wrap: anywhere;
 }
 
 .challenge-banner p {
-  max-width: 940px;
+  max-width: 100%;
+  margin: 8px 0 0;
+  font-size: 13px;
+  line-height: 1.7;
 }
 
 .product-grid {
@@ -702,9 +778,9 @@ a:focus-visible {
 
 .product-card h3 {
   margin: 20px 0 0;
-  font-family: var(--font-body);
+  font-family: var(--font-heading);
   font-size: 26px;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .product-card__chips {
@@ -719,17 +795,25 @@ a:focus-visible {
 
 .workflow-grid {
   grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
 }
 
 .workflow-card__code {
   --product-accent: var(--teal);
   flex: 0 0 auto;
+  min-width: 34px;
+  height: 24px;
+  font-size: 11px;
+}
+
+.workflow-card__top strong {
+  font-size: 16px;
 }
 
 .module-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 14px;
+  gap: 12px;
 }
 
 .module-card__category {
@@ -738,6 +822,116 @@ a:focus-visible {
 
 .module-card strong {
   margin-top: 14px;
+}
+
+/* --- Asset Showcase --- */
+.showcase-group {
+  margin-bottom: 36px;
+}
+
+.showcase-group__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.showcase-group__index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 42px;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: rgba(23, 105, 224, 0.08);
+  color: var(--primary-strong);
+  font-family: var(--font-heading);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.showcase-group__header strong {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.showcase-row {
+  display: grid;
+  gap: 14px;
+}
+
+.showcase-row--cols-1 {
+  grid-template-columns: 1fr;
+}
+
+.showcase-row--cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.showcase-row--cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.showcase-figure {
+  margin: 0;
+}
+
+.showcase-figure__frame {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: 0 6px 20px rgba(23, 42, 73, 0.06);
+}
+
+.showcase-figure__frame img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  max-height: 420px;
+}
+
+.showcase-figure figcaption {
+  margin-top: 8px;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.showcase-edge {
+  height: 1px;
+  margin: 36px 0 0;
+  background: linear-gradient(90deg, transparent, var(--line) 20%, var(--line) 80%, transparent);
+}
+
+@media (max-width: 768px) {
+  .showcase-row--cols-2,
+  .showcase-row--cols-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .showcase-figure__frame img {
+    max-height: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .showcase-group {
+    margin-bottom: 28px;
+  }
+
+  .showcase-figure__frame img {
+    max-height: 240px;
+  }
+
+  .showcase-edge {
+    margin-top: 28px;
+  }
 }
 
 .site-footer {
@@ -898,9 +1092,9 @@ a:focus-visible {
 
 .changelog-item h2 {
   margin: 0;
-  font-family: var(--font-body);
+  font-family: var(--font-heading);
   font-size: 22px;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.3;
   overflow-wrap: anywhere;
 }
@@ -949,6 +1143,15 @@ a:focus-visible {
     max-width: 18ch;
   }
 
+  .hero-capability-row {
+    gap: 12px;
+  }
+
+  .hero-capability {
+    padding: 18px;
+    gap: 12px;
+  }
+
   .product-grid,
   .workflow-grid,
   .module-grid {
@@ -989,7 +1192,7 @@ a:focus-visible {
     font-size: 16px;
   }
 
-  .hero-highlight-grid,
+  .hero-capability-row,
   .proof-grid,
   .product-grid,
   .workflow-grid,
@@ -1012,28 +1215,25 @@ a:focus-visible {
     padding-top: 46px;
   }
 
-  .challenge-banner:nth-child(odd),
-  .challenge-banner:nth-child(even) {
-    margin-right: 0;
-    margin-left: 0;
-  }
-
-  .challenge-banner {
+  .challenge-list {
     grid-template-columns: 1fr;
   }
 
+  .challenge-banner:last-child:nth-child(odd) {
+    grid-column: auto;
+  }
+
   .challenge-banner__code {
-    justify-content: flex-start;
-    padding: 22px 24px 0;
-    font-size: 52px;
+    padding: 20px 22px 0;
+    font-size: 38px;
   }
 
   .challenge-banner__body {
-    padding: 16px 24px 24px;
+    padding: 12px 22px 22px;
   }
 
   .challenge-banner h3 {
-    font-size: 24px;
+    font-size: 18px;
   }
 
   .section-head h2,
@@ -1081,6 +1281,21 @@ a:focus-visible {
     font-size: 34px;
   }
 
+  .hero-capability {
+    padding: 16px;
+    gap: 10px;
+  }
+
+  .hero-capability__index {
+    width: 34px;
+    height: 34px;
+    font-size: 13px;
+  }
+
+  .hero-capability__body strong {
+    font-size: 16px;
+  }
+
   .hero-actions .syn-button {
     width: 100%;
   }
@@ -1090,15 +1305,15 @@ a:focus-visible {
   }
 
   .challenge-banner__code {
-    padding: 20px 20px 0;
-    font-size: 46px;
+    padding: 18px 18px 0;
+    font-size: 34px;
   }
 
   .challenge-banner__body {
-    padding: 14px 20px 22px;
+    padding: 10px 18px 20px;
   }
 
   .challenge-banner h3 {
-    font-size: 22px;
+    font-size: 17px;
   }
 }

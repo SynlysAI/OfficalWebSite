@@ -77,22 +77,22 @@ export const copy = {
         '我们面向材料、化学与工艺研发团队，把任务定义、算法运行、知识检索、实验执行和审计追溯组织到同一套平台体验中。',
       cards: [
         {
-          title: '组织官网口径',
-          text: '首页先说明 SynlysAI 与 AI4MS 的定位，再把能力落到清晰的产品矩阵。',
+          title: '平台定位',
+          text: '以 AI4MS 为统一入口，将谱图智能、材料研发协作和实验系统连接为完整的产品矩阵。',
         },
         {
-          title: '科研闭环口径',
-          text: '从问题定义、智能分析、实验执行到结果回写，形成可复盘的研发链路。',
+          title: '闭环能力',
+          text: '从问题定义、智能分析、实验执行到结果回写，形成可复盘、可追溯的研发链路。',
         },
         {
-          title: '企业协作口径',
-          text: '关注数据安全、权限边界、贡献标注和跨团队复用，而不是单点工具堆叠。',
+          title: '企业级协作',
+          text: '围绕数据安全、权限边界、贡献标注和跨团队复用，构建团队可托付的研发基础设施。',
         },
       ],
     },
     challengeBanners: {
-      eyebrow: 'AI4MS challenges',
-      title: 'AI4MS 要解决的五个问题',
+      eyebrow: '行业挑战',
+      title: 'AI4MS 要解决的五个核心问题',
       summary:
         '材料研发进入自驱实验室阶段后，真正的瓶颈不只是模型能力，而是规模、执行、安全、协同和平台化闭环共同构成的工程问题。',
       banners: [
@@ -139,10 +139,10 @@ export const copy = {
       ],
     },
     products: {
-      eyebrow: 'Product matrix',
-      title: '三大产品矩阵覆盖分析、材料研发和实验执行',
+      eyebrow: '产品矩阵',
+      title: '三大产品覆盖分析、材料研发和实验执行',
       summary:
-        'AI4MS 是统一入口；Spec Agent、Poly Agent 和 SpecLabOS 分别承接谱图智能、高分子研发协作和实验系统运行。',
+        'AI4MS 是统一入口；Spec Agent、Poly Agent 和 SpecLabOS 分别承接谱图智能、高分子研发协作和实验系统运行，三者协同构成完整的产品矩阵。',
       cards: [
         {
           code: '01',
@@ -202,10 +202,10 @@ export const copy = {
       ],
     },
     matrix: {
-      eyebrow: 'Capability modules',
-      title: '能力模块围绕企业研发协作展开',
+      eyebrow: '平台能力',
+      title: '八大能力模块支撑企业研发全流程',
       summary:
-        '模块表达保留公开产品名，同时用企业可理解的能力词解释每个模块的职责。',
+        '每个模块围绕企业研发协作展开，用可理解的能力词解释职责，同时保留公开产品名以保持一致。',
       modules: [
         {
           name: 'AI4MS 统一门户',
@@ -249,6 +249,46 @@ export const copy = {
         },
       ],
     },
+    showcase: {
+      eyebrow: '平台架构与能力',
+      title: '从平台总览到设备接入的一体化能力',
+      summary:
+        '以下为 AI4MS 平台的关键架构图与系统界面，展示从整体设计、运行闭环、技术路线到设备接入的完整链路。',
+      groups: [
+        {
+          label: '平台总览',
+          cols: 2,
+          images: [
+            { src: '/assets/smartaccess-system-overview.png', alt: 'AI4MS 系统总览', caption: 'AI4MS 平台系统总览 — 从任务入口到实验执行的完整架构' },
+            { src: '/assets/smartaccess-product-overview.png', alt: 'SmartAccess 产品总览', caption: 'SmartAccess 产品能力全景' },
+          ],
+        },
+        {
+          label: '运行闭环',
+          cols: 1,
+          images: [
+            { src: '/assets/smartaccess-runtime-loop.png', alt: 'AI4MS 运行闭环', caption: 'AI4MS 运行时闭环 — 任务、执行、回写与纠错的完整链路' },
+          ],
+        },
+        {
+          label: '技术路线与系统集成',
+          cols: 2,
+          images: [
+            { src: '/assets/smartaccess-speclabos-technical-route.png', alt: '技术路线', caption: 'SpecLabOS 技术路线 — 从指令下发到设备执行的协议链路' },
+            { src: '/assets/smartaccess-speclabos-integration.png', alt: '系统集成', caption: 'SpecLabOS 系统集成架构 — 设备、协议与平台层的对接关系' },
+          ],
+        },
+        {
+          label: '设备接入',
+          cols: 3,
+          images: [
+            { src: '/assets/NMRSpectrometer.jpg', alt: 'NMR 波谱仪', caption: 'NMR 波谱仪接入' },
+            { src: '/assets/IRSpectrometer.png', alt: 'IR 光谱仪', caption: 'IR 光谱仪接入' },
+            { src: '/assets/RamanSpectrometer.png', alt: 'Raman 光谱仪', caption: 'Raman 光谱仪接入' },
+          ],
+        },
+      ],
+    },
     changelog: {
       eyebrow: 'Changelog',
       title: '更新日志',
@@ -268,10 +308,10 @@ export const copy = {
   en: {
     navigation: [
       { label: 'Challenges', to: { name: 'home', hash: '#challenges' } },
-      { label: 'Positioning', to: { name: 'home', hash: '#about' } },
+      { label: 'About', to: { name: 'home', hash: '#about' } },
       { label: 'Products', to: { name: 'home', hash: '#products' } },
-      { label: 'R&D loop', to: { name: 'home', hash: '#workflow' } },
-      { label: 'Modules', to: { name: 'home', hash: '#matrix' } },
+      { label: 'R&D Loop', to: { name: 'home', hash: '#workflow' } },
+      { label: 'Capabilities', to: { name: 'home', hash: '#matrix' } },
       { label: 'Changelog', to: { name: 'changelog' } },
     ],
     footerLinks: [
@@ -287,16 +327,16 @@ export const copy = {
       kicker: 'SynlysAI · AI4MS',
       title: 'AI autonomous research platform for enterprise R&D',
       summary:
-        'SynlysAI uses AI4MS as the platform entry, connecting spectral intelligence, materials R&D agents, and lab execution into an executable and traceable research loop.',
+        'SynlysAI uses AI4MS as the unified entry, connecting spectral intelligence, materials R&D agents, and lab execution into an executable, traceable, and collaborative research loop — turning every experiment into reusable R&D context.',
       primaryAction: 'Product Experience',
       primaryHref: links.demo,
       secondaryAction: 'About us',
       secondaryHref: links.about,
-      badges: ['AI4MS platform', 'Three-product matrix', 'Enterprise R&D loop'],
+      badges: ['AI4MS unified platform', 'Three-product matrix', 'Enterprise R&D loop'],
       highlights: [
-        { value: '3', label: 'core products' },
-        { value: '5', label: 'collaboration dimensions' },
-        { value: '1', label: 'unified entry' },
+        { value: 'Task Definition', label: 'Research Spec formalizes R&D goals' },
+        { value: 'Tool Orchestration', label: 'Skills registered and invoked uniformly' },
+        { value: 'Evidence Return', label: 'Memory captures research context' },
       ],
       panelTitle: 'From research problem to experiments and evidence return',
       panelBody:
@@ -309,22 +349,22 @@ export const copy = {
         'For materials, chemistry, and process teams, we organize task definition, algorithm runs, knowledge retrieval, lab execution, and audit trails into one platform experience.',
       cards: [
         {
-          title: 'Organization-site voice',
-          text: 'The homepage introduces SynlysAI and AI4MS first, then anchors the story in a clear product matrix.',
+          title: 'Platform positioning',
+          text: 'AI4MS serves as the unified entry, connecting spectral intelligence, materials R&D collaboration, and lab systems into a complete product matrix.',
         },
         {
-          title: 'Research-loop voice',
-          text: 'Problem definition, intelligent analysis, experiment execution, and result return form a replayable R&D chain.',
+          title: 'Closed-loop capability',
+          text: 'From problem definition and intelligent analysis through experiment execution to evidence return — forming a traceable, replayable R&D chain.',
         },
         {
           title: 'Enterprise collaboration',
-          text: 'The focus is data security, permission boundaries, attribution, and reuse across teams.',
+          text: 'Built around data security, permission boundaries, contribution attribution, and cross-team reuse — infrastructure teams can trust.',
         },
       ],
     },
     challengeBanners: {
-      eyebrow: 'AI4MS challenges',
-      title: 'Five problems AI4MS is built to solve',
+      eyebrow: 'Industry challenges',
+      title: 'Five core problems AI4MS is built to solve',
       summary:
         'As materials R&D moves toward self-driving labs, the bottleneck is not only model intelligence. It is the engineering system that must control scale, execution, safety, collaboration, and closed-loop reuse.',
       banners: [
@@ -374,7 +414,7 @@ export const copy = {
       eyebrow: 'Product matrix',
       title: 'Three products cover analysis, materials R&D, and lab execution',
       summary:
-        'AI4MS is the unified entry. Spec Agent, Poly Agent, and SpecLabOS respectively carry spectral intelligence, polymer R&D collaboration, and lab-system operations.',
+        'AI4MS is the unified entry. Spec Agent, Poly Agent, and SpecLabOS respectively carry spectral intelligence, polymer R&D collaboration, and lab-system operations — together forming a complete product matrix.',
       cards: [
         {
           code: '01',
@@ -434,10 +474,10 @@ export const copy = {
       ],
     },
     matrix: {
-      eyebrow: 'Capability modules',
-      title: 'Capability modules are shaped around enterprise R&D collaboration',
+      eyebrow: 'Platform capabilities',
+      title: 'Eight capability modules powering the full enterprise R&D lifecycle',
       summary:
-        'The module language keeps public product names while explaining responsibilities in enterprise-readable terms.',
+        'Each module is shaped around enterprise R&D collaboration, explained in accessible terms while retaining public product names for consistency.',
       modules: [
         {
           name: 'AI4MS portal',
@@ -481,6 +521,46 @@ export const copy = {
         },
       ],
     },
+    showcase: {
+      eyebrow: 'Architecture & Capabilities',
+      title: 'From platform overview to device integration',
+      summary:
+        'Key architecture diagrams and system interfaces of the AI4MS platform, covering the full chain from overall design and runtime loop to technical routing and device access.',
+      groups: [
+        {
+          label: 'Platform overview',
+          cols: 2,
+          images: [
+            { src: '/assets/smartaccess-system-overview.png', alt: 'AI4MS system overview', caption: 'AI4MS platform system overview — full architecture from task entry to experiment execution' },
+            { src: '/assets/smartaccess-product-overview.png', alt: 'SmartAccess product overview', caption: 'SmartAccess product capability overview' },
+          ],
+        },
+        {
+          label: 'Runtime loop',
+          cols: 1,
+          images: [
+            { src: '/assets/smartaccess-runtime-loop.png', alt: 'AI4MS runtime loop', caption: 'AI4MS runtime loop — task, execution, evidence return, and self-correction chain' },
+          ],
+        },
+        {
+          label: 'Technical route & system integration',
+          cols: 2,
+          images: [
+            { src: '/assets/smartaccess-speclabos-technical-route.png', alt: 'Technical route', caption: 'SpecLabOS technical route — protocol chain from instruction dispatch to device execution' },
+            { src: '/assets/smartaccess-speclabos-integration.png', alt: 'System integration', caption: 'SpecLabOS system integration — devices, protocols, and platform layer connections' },
+          ],
+        },
+        {
+          label: 'Device access',
+          cols: 3,
+          images: [
+            { src: '/assets/NMRSpectrometer.jpg', alt: 'NMR Spectrometer', caption: 'NMR Spectrometer access' },
+            { src: '/assets/IRSpectrometer.png', alt: 'IR Spectrometer', caption: 'IR Spectrometer access' },
+            { src: '/assets/RamanSpectrometer.png', alt: 'Raman Spectrometer', caption: 'Raman Spectrometer access' },
+          ],
+        },
+      ],
+    },
     changelog: {
       eyebrow: 'Changelog',
       title: 'Changelog',
@@ -492,3 +572,9 @@ export const copy = {
       emptyTitle: 'No public releases yet',
       emptyBody: 'This repository does not have public release records to show yet.',
       summaryLabels: ['Latest version', 'Recent release', 'Public records'],
+      originalAction: 'GitHub source',
+      unpublished: 'Unpublished',
+      emptyReleaseBody: 'This release does not include release notes.',
+    },
+  },
+}
