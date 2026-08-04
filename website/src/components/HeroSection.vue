@@ -74,18 +74,5 @@ onUnmounted(() => {
       </article>
     </div>
 
-    <div class="hero-capability-row">
-      <article
-        v-for="(item, i) in content.highlights"
-        :key="i"
-        class="hero-capability"
-      >
-        <span class="hero-capability__index">{{ String(i + 1).padStart(2, '0') }}</span>
-        <div class="hero-capability__body">
-          <strong>{{ item.value }}</strong>
-          <span>{{ item.label }}</span>
-        </div>
-      </article>
-    </div>
   </section>
 </template>

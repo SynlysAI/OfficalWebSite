@@ -38,6 +38,24 @@ defineProps({
           </div>
         </article>
       </div>
+
+      <!-- 研发闭环 (merged from workflow section) -->
+      <div v-if="content.steps && content.steps.length" class="product-loop">
+        <div class="product-loop__head">
+          <h3>{{ content.stepsTitle }}</h3>
+          <p>{{ content.stepsSummary }}</p>
+        </div>
+
+        <div class="workflow-grid">
+          <article v-for="step in content.steps" :key="step.code" class="workflow-card">
+            <div class="workflow-card__top">
+              <span class="workflow-card__code">{{ step.code }}</span>
+              <span>{{ step.title }}</span>
+            </div>
+            <p>{{ step.text }}</p>
+          </article>
+        </div>
+      </div>
     </div>
   </section>
 </template>

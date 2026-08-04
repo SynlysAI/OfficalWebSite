@@ -26,7 +26,7 @@ defineProps({
         <article v-for="step in content.steps" :key="step.code" class="workflow-card">
           <div class="workflow-card__top">
             <span class="workflow-card__code">{{ step.code }}</span>
-            <strong>{{ step.title }}</strong>
+            <span>{{ step.title }}</span>
           </div>
           <p>{{ step.text }}</p>
         </article>

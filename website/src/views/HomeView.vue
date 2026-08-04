@@ -3,8 +3,6 @@ import HeroSection from '../components/HeroSection.vue'
 import ProofStrip from '../components/ProofStrip.vue'
 import ChallengeBanners from '../components/ChallengeBanners.vue'
 import ProductMatrix from '../components/ProductMatrix.vue'
-import LayerGrid from '../components/LayerGrid.vue'
-import AssetShowcase from '../components/AssetShowcase.vue'
 import ModuleGrid from '../components/ModuleGrid.vue'
 import { brand } from '../data/site'
 import { useSiteContent } from '../composables/useSiteContent'
@@ -26,10 +24,6 @@ const { content, language } = useSiteContent()
 
     <ProductMatrix id="products" :content="content.products" />
 
-    <LayerGrid id="workflow" :content="content.workflow" :language="language" />
-
-    <AssetShowcase :content="content.showcase" />
-
-    <ModuleGrid id="matrix" :content="content.matrix" :language="language" />
+    <ModuleGrid id="matrix" :content="content.matrix" :language="language" :showcase="content.showcase" />
   </main>
 </template>
