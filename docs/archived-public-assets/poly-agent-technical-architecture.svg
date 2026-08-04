@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">SynlysAI 平台能力示意图</title>
+  <desc id="desc">SynlysAI 将目标定义、实验编排、设备接入、数据回写、安全审计和持续优化连接为企业研发闭环。</desc>
+  <style>
+    text { font-family: "Noto Sans CJK SC", "Microsoft YaHei", "PingFang SC", sans-serif; }
+    .title { font-size: 38px; font-weight: 500; fill: #111827; }
+    .subtitle { font-size: 17px; font-weight: 400; fill: #64748b; }
+    .group { font-size: 20px; font-weight: 500; fill: #111827; }
+    .label { font-size: 18px; font-weight: 500; fill: #111827; }
+    .small { font-size: 14px; font-weight: 400; fill: #475569; }
+  </style>
+
+  <rect width="1440" height="900" fill="#f8fafc"/>
+  <circle cx="1132" cy="168" r="104" fill="#dbeafe" opacity="0.72"/>
+  <circle cx="1214" cy="256" r="54" fill="#ccfbf1" opacity="0.82"/>
+  <circle cx="1036" cy="280" r="38" fill="#e0e7ff" opacity="0.9"/>
+
+  <text class="title" x="72" y="88">SynlysAI 平台能力示意图</text>
+  <text class="subtitle" x="72" y="126">从研发目标到实验执行，再到证据回写和持续优化的企业科研闭环</text>
+
+  <rect x="72" y="206" width="1296" height="458" rx="28" fill="#ffffff" stroke="#dbe3ea" stroke-width="1.5"/>
+
+  <g transform="translate(132 292)">
+    <rect width="170" height="154" rx="18" fill="#eff6ff" stroke="#60a5fa" stroke-width="1.5"/>
+    <text class="label" x="42" y="58">目标定义</text>
+    <text class="small" x="28" y="94">目标、变量、约束</text>
+    <text class="small" x="28" y="120">验收标准</text>
+  </g>
+
+  <g transform="translate(350 292)">
+    <rect width="170" height="154" rx="18" fill="#f0fdfa" stroke="#2dd4bf" stroke-width="1.5"/>
+    <text class="label" x="42" y="58">实验编排</text>
+    <text class="small" x="28" y="94">步骤、工具、队列</text>
+    <text class="small" x="28" y="120">任务上下文</text>
+  </g>
+
+  <g transform="translate(568 292)">
+    <rect width="170" height="154" rx="18" fill="#fff7ed" stroke="#fb923c" stroke-width="1.5"/>
+    <text class="label" x="42" y="58">设备接入</text>
+    <text class="small" x="28" y="94">仪器、软件、状态</text>
+    <text class="small" x="28" y="120">标准化执行</text>
+  </g>
+
+  <g transform="translate(786 292)">
+    <rect width="170" height="154" rx="18" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text class="label" x="42" y="58">数据回写</text>
+    <text class="small" x="28" y="94">样品、谱图、日志</text>
+    <text class="small" x="28" y="120">事实沉淀</text>
+  </g>
+
+  <g transform="translate(1004 292)">
+    <rect width="170" height="154" rx="18" fill="#fef2f2" stroke="#fb7185" stroke-width="1.5"/>
+    <text class="label" x="42" y="58">安全审计</text>
+    <text class="small" x="28" y="94">确认、日志、追溯</text>
+    <text class="small" x="28" y="120">边界可控</text>
+  </g>
+
+  <g transform="translate(568 514)">
+    <rect width="170" height="96" rx="18" fill="#ecfdf5" stroke="#22c55e" stroke-width="1.5"/>
+    <text class="label" x="42" y="42">持续优化</text>
+    <text class="small" x="28" y="70">下一轮决策</text>
+  </g>
+
+  <path d="M302 369H350" stroke="#475569" stroke-width="2.4"/>
+  <path d="M520 369H568" stroke="#475569" stroke-width="2.4"/>
+  <path d="M738 369H786" stroke="#475569" stroke-width="2.4"/>
+  <path d="M956 369H1004" stroke="#475569" stroke-width="2.4"/>
+  <path d="M1088 446C1036 536 860 562 738 562" stroke="#475569" stroke-width="2.4" fill="none" stroke-dasharray="8 8"/>
+  <path d="M568 562C402 560 208 520 202 446" stroke="#475569" stroke-width="2.4" fill="none" stroke-dasharray="8 8"/>
+
+  <rect x="72" y="722" width="1296" height="76" rx="16" fill="#eef2f7" stroke="#dbe3ea" stroke-width="1"/>
+  <text class="group" x="104" y="754">公开表达原则</text>
+  <text class="small" x="104" y="780">对外页面聚焦品牌定位、平台能力、研发闭环与企业价值，保持清晰、克制、可审计的表达。</text>
+</svg>
