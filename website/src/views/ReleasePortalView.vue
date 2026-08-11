@@ -5,6 +5,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useSiteContent } from '../composables/useSiteContent'
 import ReleaseFilters from '../components/ReleaseFilters.vue'
 import ReleaseDownloadCenter from '../components/ReleaseDownloadCenter.vue'
+import ReleaseFaqCenter from '../components/ReleaseFaqCenter.vue'
 import ReleaseProductGrid from '../components/ReleaseProductGrid.vue'
 import ReleaseTimeline from '../components/ReleaseTimeline.vue'
 import { releasePortalFallback } from '../data/releasePortalFallback'
@@ -201,6 +202,12 @@ onMounted(loadManifest)
           :releases="manifest.releases"
           :language="language"
           :product-id="selectedProduct"
+        />
+
+        <ReleaseFaqCenter
+          :faqs="manifest.faqs"
+          :products="manifest.products"
+          :language="language"
         />
       </div>
     </section>

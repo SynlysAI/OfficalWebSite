@@ -1,13 +1,15 @@
 // @vitest-environment jsdom
 
-import { mount, RouterLinkStub } from '@vue/test-utils'
+import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import ProductMatrix from '../../src/components/ProductMatrix.vue'
 import ReleaseDownloadCenter from '../../src/components/ReleaseDownloadCenter.vue'
+import ReleaseFaqCenter from '../../src/components/ReleaseFaqCenter.vue'
 import ReleaseFilters from '../../src/components/ReleaseFilters.vue'
 import ReleaseProductGrid from '../../src/components/ReleaseProductGrid.vue'
 import ReleaseTimeline from '../../src/components/ReleaseTimeline.vue'
+import MarkdownRenderer from '../../src/components/MarkdownRenderer.vue'
 
 /** 创建六产品测试数据。
  *
@@ -308,5 +310,83 @@ describe('ReleaseDownloadCenter', () => {
     })
 
     expect(wrapper.get('[data-download-empty]').text()).toContain('暂无可下载版本')
+  })
+})
+
+describe('MarkdownRenderer', () => {
+  it('安全渲染 Markdown、代码块和 KaTeX，并移除危险 HTML', () => {
+    const wrapper = mount(MarkdownRenderer, {
+      props: {
+        source: '```js\nconst answer = 42\n```\n\n$E=mc^2$\n\n<script>alert(1)</script>\n\n[bad](javascript:alert(1))',
+      },
+    })
+
+    expect(wrapper.find('code').text()).toContain('const answer = 42')
+    expect(wrapper.find('.katex').exists()).toBe(true)
+    expect(wrapper.html()).not.toContain('<script>')
+    expect(wrapper.html()).not.toContain('javascript:')
+  })
+})
+
+describe('ReleaseFaqCenter', () => {
+  const faqs = [
+    {
+      id: 'install-help',
+      productId: 'smartaccess',
+      versionRange: '>=2.0.0',
+      category: 'installation',
+      question: { zh: '如何安装 SmartAccess？', en: 'How do I install SmartAccess?' },
+      answerMarkdown: { zh: '运行安装包并重启。', en: 'Run the installer and restart.' },
+      relatedTimelineIds: ['release-v1'],
+      feedbackEnabled: true,
+    },
+    {
+      id: 'science-help',
+      productId: null,
+      versionRange: null,
+      category: 'science',
+      question: { zh: '如何解释谱图？', en: 'How do I interpret a spectrum?' },
+      answerMarkdown: { zh: '查看峰位和上下文。', en: 'Review peaks and context.' },
+      relatedTimelineIds: [],
+      feedbackEnabled: true,
+    },
+  ]
+
+  it('支持模糊搜索、高亮、分类和产品筛选', async () => {
+    const wrapper = mount(ReleaseFaqCenter, {
+      props: { faqs, products: createProducts(), language: 'zh' },
+    })
+
+    expect(wrapper.findAll('[data-faq-item]')).toHaveLength(2)
+    await wrapper.get('[data-faq-search]').setValue('安装')
+    expect(wrapper.findAll('[data-faq-item]')).toHaveLength(1)
+    expect(wrapper.get('[data-faq-item]').find('mark').text()).toBe('安装')
+
+    await wrapper.get('[data-faq-category]').setValue('science')
+    expect(wrapper.findAll('[data-faq-item]')).toHaveLength(0)
+    await wrapper.get('[data-faq-search]').setValue('')
+    expect(wrapper.findAll('[data-faq-item]')).toHaveLength(1)
+    await wrapper.get('[data-faq-product]').setValue('smartaccess')
+    expect(wrapper.findAll('[data-faq-item]')).toHaveLength(0)
+  })
+
+  it('展开答案、显示关联时间线并处理有用/无用反馈的成功和失败', async () => {
+    const fetchMock = vi.spyOn(globalThis, 'fetch')
+      .mockResolvedValueOnce(new Response(JSON.stringify({ helpful: 1, unhelpful: 0 }), { status: 200 }))
+      .mockRejectedValueOnce(new Error('offline'))
+    const wrapper = mount(ReleaseFaqCenter, {
+      props: { faqs, products: createProducts(), language: 'zh' },
+    })
+
+    await wrapper.get('[data-faq-item] summary').trigger('click')
+    expect(wrapper.get('[data-faq-answer]').text()).toContain('运行安装包')
+    expect(wrapper.get('[data-faq-timeline-link]').attributes('href')).toBe('#release-v1')
+    await wrapper.get('[data-faq-helpful]').trigger('click')
+    await flushPromises()
+    expect(wrapper.get('[data-faq-feedback-status]').text()).toContain('感谢反馈')
+    await wrapper.get('[data-faq-unhelpful]').trigger('click')
+    await flushPromises()
+    expect(wrapper.get('[data-faq-feedback-error]').text()).toContain('暂时无法提交')
+    expect(fetchMock).toHaveBeenCalledTimes(2)
   })
 })

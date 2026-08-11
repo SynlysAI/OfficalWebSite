@@ -1950,6 +1950,212 @@ a:focus-visible {
   font-weight: 600;
 }
 
+.release-faq {
+  margin-top: 52px;
+  scroll-margin-top: 108px;
+}
+
+.release-faq__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 18px;
+}
+
+.release-faq__head h2 {
+  margin: 9px 0 0;
+  font-family: var(--font-heading);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: 0;
+}
+
+.release-faq__head input,
+.release-faq__filters select,
+.release-faq__filters input {
+  height: 40px;
+  padding: 0 11px;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  color: var(--text);
+  background: var(--surface);
+  font-family: var(--font-ui);
+  font-size: 13px;
+}
+
+.release-faq__head input {
+  width: min(340px, 100%);
+}
+
+.release-faq__filters {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.release-faq__filters label {
+  display: grid;
+  gap: 6px;
+  color: var(--text-muted);
+  font-family: var(--font-ui);
+  font-size: 12px;
+}
+
+.release-faq__filters select,
+.release-faq__filters input {
+  width: 100%;
+}
+
+.release-faq__list {
+  display: grid;
+  gap: 8px;
+}
+
+.release-faq-item {
+  min-width: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.release-faq-item summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 17px 18px;
+  cursor: pointer;
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: 15px;
+  font-weight: 600;
+  list-style: none;
+}
+
+.release-faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.release-faq-item summary > span:first-child {
+  min-width: 0;
+  flex: 1 1 auto;
+  overflow-wrap: anywhere;
+}
+
+.release-faq-item mark {
+  padding: 0 2px;
+  color: var(--text);
+  background: rgba(250, 195, 72, 0.45);
+}
+
+.release-faq-item__category {
+  flex: 0 0 auto;
+  padding: 4px 8px;
+  border-radius: 5px;
+  color: var(--primary-strong);
+  background: rgba(23, 105, 224, 0.08);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.release-faq-item__body {
+  padding: 0 18px 18px;
+  border-top: 1px solid var(--line);
+}
+
+.release-faq-item__related,
+.release-faq-item__feedback {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 16px;
+  color: var(--text-muted);
+  font-family: var(--font-ui);
+  font-size: 12px;
+}
+
+.release-faq-item__related a,
+.release-faq-item__feedback a {
+  color: var(--primary-strong);
+  font-weight: 600;
+}
+
+.release-faq-item__feedback button {
+  min-height: 30px;
+  padding: 0 9px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  color: var(--text-soft);
+  background: var(--surface-tint);
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: 12px;
+}
+
+.release-faq-item__feedback button:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+
+.markdown-renderer {
+  margin-top: 16px;
+  color: var(--text-soft);
+  font-size: 14px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.markdown-renderer > :first-child {
+  margin-top: 0;
+}
+
+.markdown-renderer pre {
+  max-width: 100%;
+  margin: 14px 0;
+  padding: 13px;
+  overflow-x: auto;
+  border-radius: 6px;
+  color: #e9f0fb;
+  background: #182333;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.markdown-renderer code {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+}
+
+.markdown-renderer :not(pre) > code {
+  padding: 2px 4px;
+  border-radius: 4px;
+  color: var(--primary-strong);
+  background: var(--surface-tint);
+}
+
+.markdown-renderer a {
+  color: var(--primary-strong);
+}
+
+.markdown-renderer table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+}
+
+.markdown-renderer th,
+.markdown-renderer td {
+  padding: 7px 9px;
+  border: 1px solid var(--line);
+  text-align: left;
+}
+
 @media (max-width: 860px) {
   .release-filters__controls {
     grid-template-columns: minmax(0, 1fr);
@@ -2025,6 +2231,25 @@ a:focus-visible {
 
   .release-download-asset__actions {
     justify-content: flex-start;
+  }
+
+  .release-faq__head {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .release-faq__head input {
+    width: 100%;
+  }
+
+  .release-faq__filters {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .release-faq-item summary {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
   }
 }
 
