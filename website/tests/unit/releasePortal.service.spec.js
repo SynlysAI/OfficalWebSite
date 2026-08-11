@@ -110,6 +110,33 @@ describe('fetchReleaseManifest', () => {
     },
   )
 
+  it.each(
+    ['products', 'releases', 'timeline', 'faqs'].flatMap((field) => [
+      [field, null],
+      [field, []],
+      [field, {}],
+      [field, 'invalid'],
+    ]),
+  )('%s 包含非法集合元素时返回 Schema 错误和 fallback', async (field, invalidElement) => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
+      ok: true,
+      json: vi.fn().mockResolvedValue(createManifest({
+        [field]: [invalidElement],
+      })),
+    }))
+
+    const result = await fetchReleaseManifest()
+
+    expect(result).toEqual({
+      ok: false,
+      manifest: releasePortalFallback,
+      error: {
+        code: 'SCHEMA_INVALID',
+        message: '发布数据集合元素无效',
+      },
+    })
+  })
+
   it('请求超过 8 秒时中止请求并返回超时错误和 fallback', async () => {
     const fetchMock = vi.fn((url, options) => new Promise((resolve, reject) => {
       options.signal.addEventListener('abort', () => {
@@ -196,6 +223,61 @@ describe('filterTimeline', () => {
 
     expect(result.map(({ id }) => id)).toEqual(['commit-a'])
   })
+
+  it('日期范围筛选包含起始和结束日期的双端边界', () => {
+    const boundaryEvents = [
+      { id: 'before', productId: 'ai4ms', level: 'release', occurredAt: '2026-06-30T23:59:59.000Z', changeType: 'fix' },
+      { id: 'start', productId: 'ai4ms', level: 'release', occurredAt: '2026-07-01T00:00:00.000Z', changeType: 'fix' },
+      { id: 'inside', productId: 'ai4ms', level: 'release', occurredAt: '2026-07-15T12:00:00.000Z', changeType: 'fix' },
+      { id: 'end', productId: 'ai4ms', level: 'release', occurredAt: '2026-07-31T23:59:59.999Z', changeType: 'fix' },
+      { id: 'after', productId: 'ai4ms', level: 'release', occurredAt: '2026-08-01T00:00:00.000Z', changeType: 'fix' },
+    ]
+
+    const result = filterTimeline(boundaryEvents, {
+      productId: 'ai4ms',
+      dateFrom: '2026-07-01',
+      dateTo: '2026-07-31',
+      changeTypes: ['fix'],
+    })
+
+    expect(result.map(({ id }) => id)).toEqual(['end', 'inside', 'start'])
+  })
+
+  it('忽略异常元素和发生时间字段无效的事件', () => {
+    const validEvent = {
+      id: 'valid',
+      productId: 'ai4ms',
+      level: 'release',
+      occurredAt: '2026-07-15T12:00:00.000Z',
+      changeType: 'fix',
+    }
+
+    expect(() => filterTimeline([
+      null,
+      [],
+      'invalid',
+      42,
+      { ...validEvent, id: 'invalid-date', occurredAt: 42 },
+      validEvent,
+    ], {
+      dateFrom: '2026-07-01',
+      dateTo: '2026-07-31',
+      view: 'panorama',
+    })).not.toThrow()
+
+    expect(filterTimeline([
+      null,
+      [],
+      'invalid',
+      42,
+      { ...validEvent, id: 'invalid-date', occurredAt: 42 },
+      validEvent,
+    ], {
+      dateFrom: '2026-07-01',
+      dateTo: '2026-07-31',
+      view: 'panorama',
+    })).toEqual([validEvent])
+  })
 })
 
 describe('getLatestStableRelease', () => {
@@ -209,6 +291,32 @@ describe('getLatestStableRelease', () => {
 
     expect(getLatestStableRelease(releases, 'ai4ms')?.id).toBe('stable-new')
     expect(getLatestStableRelease(releases, 'missing')).toBeNull()
+  })
+
+  it('忽略异常元素和发布时间字段无效的版本', () => {
+    const validRelease = {
+      id: 'stable',
+      productId: 'ai4ms',
+      channel: 'stable',
+      publishedAt: '2026-07-01T00:00:00.000Z',
+    }
+
+    expect(() => getLatestStableRelease([
+      null,
+      [],
+      'invalid',
+      42,
+      { ...validRelease, id: 'invalid-date', publishedAt: null },
+      validRelease,
+    ], 'ai4ms')).not.toThrow()
+    expect(getLatestStableRelease([
+      null,
+      [],
+      'invalid',
+      42,
+      { ...validRelease, id: 'invalid-date', publishedAt: null },
+      validRelease,
+    ], 'ai4ms')).toBe(validRelease)
   })
 })
 

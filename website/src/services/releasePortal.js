@@ -6,6 +6,23 @@ const REQUEST_TIMEOUT_MS = 8000
 const REQUIRED_ARRAY_FIELDS = ['products', 'releases', 'timeline', 'faqs']
 
 /**
+ * 判断值是否为至少包含一个字段的普通对象。
+ *
+ * @param {unknown} value 待判断的值。
+ * @returns {boolean} 是否为非空普通对象。
+ */
+const isNonEmptyPlainObject = (value) => {
+  if (value === null || typeof value !== 'object' || Array.isArray(value)) {
+    return false
+  }
+
+  const prototype = Object.getPrototypeOf(value)
+
+  return (prototype === Object.prototype || prototype === null)
+    && Object.keys(value).length > 0
+}
+
+/**
  * 创建不包含内部异常细节的降级结果。
  *
  * @param {string} code 机器可判别的错误码。
@@ -37,6 +54,18 @@ const isManifestShapeValid = (manifest) => (
   && typeof manifest.meta === 'object'
   && !Array.isArray(manifest.meta)
   && REQUIRED_ARRAY_FIELDS.every((field) => Array.isArray(manifest[field]))
+)
+
+/**
+ * 校验 manifest 各集合仅包含非空普通对象。
+ *
+ * @param {object} manifest 已通过基础结构校验的发布数据。
+ * @returns {boolean} 所有集合元素是否安全可消费。
+ */
+const areManifestElementsValid = (manifest) => (
+  REQUIRED_ARRAY_FIELDS.every((field) => (
+    manifest[field].every(isNonEmptyPlainObject)
+  ))
 )
 
 /**
@@ -94,6 +123,10 @@ export const fetchReleaseManifest = async ({ signal } = {}) => {
       return createFallbackResult('INVALID_MANIFEST', '发布数据格式无效')
     }
 
+    if (!areManifestElementsValid(manifest)) {
+      return createFallbackResult('SCHEMA_INVALID', '发布数据集合元素无效')
+    }
+
     return {
       ok: true,
       manifest,
@@ -137,6 +170,11 @@ export const filterTimeline = (events = [], filters = {}) => {
   } = filters
 
   return events
+    .filter((event) => (
+      isNonEmptyPlainObject(event)
+      && typeof event.occurredAt === 'string'
+      && !Number.isNaN(Date.parse(event.occurredAt))
+    ))
     .filter((event) => !productId || productId === 'all' || event.productId === productId)
     .filter((event) => view === 'panorama' || event.level === 'release')
     .filter((event) => !dateFrom || event.occurredAt?.slice(0, 10) >= dateFrom)
@@ -157,7 +195,11 @@ export const filterTimeline = (events = [], filters = {}) => {
 export const getLatestStableRelease = (releases = [], productId) => (
   releases
     .filter((release) => (
-      release.productId === productId && release.channel === 'stable'
+      isNonEmptyPlainObject(release)
+      && typeof release.publishedAt === 'string'
+      && !Number.isNaN(Date.parse(release.publishedAt))
+      && release.productId === productId
+      && release.channel === 'stable'
     ))
     .sort((left, right) => (
       Number(Boolean(right.isLatestStable)) - Number(Boolean(left.isLatestStable))
