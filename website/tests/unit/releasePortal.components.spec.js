@@ -4,6 +4,7 @@ import { mount, RouterLinkStub } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import ProductMatrix from '../../src/components/ProductMatrix.vue'
+import ReleaseDownloadCenter from '../../src/components/ReleaseDownloadCenter.vue'
 import ReleaseFilters from '../../src/components/ReleaseFilters.vue'
 import ReleaseProductGrid from '../../src/components/ReleaseProductGrid.vue'
 import ReleaseTimeline from '../../src/components/ReleaseTimeline.vue'
@@ -206,5 +207,106 @@ describe('ReleaseTimeline', () => {
     })
 
     expect(wrapper.get('[data-timeline-empty]').text()).toContain('暂无匹配的技术演进')
+  })
+})
+
+describe('ReleaseDownloadCenter', () => {
+  const downloadReleases = [
+    {
+      id: 'smartaccess-v2',
+      productId: 'smartaccess',
+      tagName: 'v2.0.0',
+      channel: 'stable',
+      isLatestStable: true,
+      publishedAt: '2026-08-11T00:00:00.000Z',
+      source: 'manual',
+      assets: [
+        {
+          name: 'SmartAccess 2.0.exe',
+          platform: 'windows',
+          arch: 'x64',
+          size: 1048576,
+          sha256: 'abc123',
+          downloadPath: 'smartaccess/v2.0.0/SmartAccess 2.0.exe',
+        },
+        {
+          name: 'SmartAccess 2.0-arm64.dmg',
+          platform: 'macos',
+          arch: 'arm64',
+          size: 2048,
+          downloadPath: 'smartaccess/v2.0.0/SmartAccess 2.0-arm64.dmg',
+        },
+      ],
+    },
+    {
+      id: 'smartaccess-v3-beta',
+      productId: 'smartaccess',
+      tagName: 'v3.0.0-beta.1',
+      channel: 'preview',
+      isLatestStable: false,
+      publishedAt: '2026-08-12T00:00:00.000Z',
+      assets: [{
+        name: 'SmartAccess beta.exe',
+        platform: 'windows',
+        arch: 'x64',
+        size: 512,
+        sha256: 'beta123',
+        downloadPath: 'smartaccess/v3.0.0-beta.1/SmartAccess beta.exe',
+      }],
+    },
+  ]
+
+  it('按产品分组并将最新稳定版置顶，标记预发布和手工来源', () => {
+    const wrapper = mount(ReleaseDownloadCenter, {
+      props: {
+        products: createProducts(),
+        releases: downloadReleases,
+        language: 'zh',
+      },
+    })
+
+    const versions = wrapper.findAll('[data-download-release]')
+    expect(wrapper.findAll('[data-download-product]')).toHaveLength(1)
+    expect(versions.map((node) => node.attributes('data-download-release'))).toEqual([
+      'v2.0.0',
+      'v3.0.0-beta.1',
+    ])
+    expect(versions[0].text()).toContain('最新稳定版')
+    expect(versions[0].text()).toContain('手工发布')
+    expect(versions[1].text()).toContain('预发布')
+  })
+
+  it('按平台与架构筛选资源且下载只指向同域接口', async () => {
+    const wrapper = mount(ReleaseDownloadCenter, {
+      props: {
+        products: createProducts(),
+        releases: downloadReleases,
+        language: 'zh',
+      },
+    })
+
+    await wrapper.get('[data-download-platform]').setValue('macos')
+    await wrapper.get('[data-download-arch]').setValue('arm64')
+
+    const assets = wrapper.findAll('[data-download-asset]')
+    expect(assets).toHaveLength(1)
+    expect(assets[0].text()).toContain('2 KB')
+    expect(assets[0].text()).toContain('未提供校验和')
+    expect(assets[0].get('a[data-download-link]').attributes('href')).toBe(
+      '/api/download/smartaccess/v2.0.0/SmartAccess%202.0-arm64.dmg',
+    )
+    expect(wrapper.html()).not.toContain('https://')
+  })
+
+  it('没有下载资源时展示明确空状态', () => {
+    const wrapper = mount(ReleaseDownloadCenter, {
+      props: {
+        products: createProducts(),
+        releases: [{ ...downloadReleases[0], assets: [] }],
+        language: 'zh',
+      },
+    })
+
+    expect(wrapper.get('[data-download-empty]').text()).toContain('暂无可下载版本')
   })
 })
