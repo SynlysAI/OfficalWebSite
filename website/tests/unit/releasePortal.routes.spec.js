@@ -37,6 +37,54 @@ describe('Release Portal 路由', () => {
     expect(router.currentRoute.value.name).toBe('releases')
     expect(wrapper.attributes('data-product')).toBe('spec-agent')
     expect(wrapper.attributes('data-view')).toBe('panorama')
+    expect(wrapper.get('[role="tablist"]').findAll('[role="tab"]')).toHaveLength(5)
+    expect(wrapper.get('h1').text()).toBe('产品发布中心')
+    expect(wrapper.get('[role="tablist"]').text()).toContain('产品概览')
+    expect(wrapper.get('[role="tablist"]').text()).toContain('技术演进')
+    expect(wrapper.get('[role="tablist"]').text()).toContain('版本发布')
+    expect(wrapper.get('[role="tablist"]').text()).toContain('资源下载')
+    expect(wrapper.get('[role="tablist"]').text()).toContain('常见问题')
+    expect(wrapper.get('[role="tabpanel"]').attributes('data-portal-panel')).toBe('overview')
+  })
+
+  it('从 hash 恢复活动 Tab，并对未知 hash 回退到产品概览', async () => {
+    const router = createTestRouter()
+    await router.push('/releases#faq')
+    await router.isReady()
+    const wrapper = mount(ReleasePortalView, {
+      global: { plugins: [router] },
+    })
+
+    expect(wrapper.get('[data-portal-tab="faq"]').attributes('aria-selected')).toBe('true')
+    expect(wrapper.get('[role="tabpanel"]').attributes('data-portal-panel')).toBe('faq')
+
+    await router.replace('/releases#unknown')
+    await flushPromises()
+
+    expect(wrapper.get('[data-portal-tab="overview"]').attributes('aria-selected')).toBe('true')
+    expect(wrapper.get('[role="tabpanel"]').attributes('data-portal-panel')).toBe('overview')
+    wrapper.unmount()
+  })
+
+  it('支持使用方向键在五个 Tab 间循环切换', async () => {
+    const router = createTestRouter()
+    await router.push('/releases')
+    await router.isReady()
+    const wrapper = mount(ReleasePortalView, {
+      attachTo: document.body,
+      global: { plugins: [router] },
+    })
+
+    await wrapper.get('[data-portal-tab="overview"]').trigger('keydown', { key: 'ArrowLeft' })
+    await flushPromises()
+    expect(router.currentRoute.value.hash).toBe('#faq')
+    expect(document.activeElement?.getAttribute('data-portal-tab')).toBe('faq')
+
+    await wrapper.get('[data-portal-tab="faq"]').trigger('keydown', { key: 'ArrowRight' })
+    await flushPromises()
+    expect(router.currentRoute.value.hash).toBe('#overview')
+    expect(document.activeElement?.getAttribute('data-portal-tab')).toBe('overview')
+    wrapper.unmount()
   })
 
   it('将 /changelog 及其 query 重定向到 /releases', async () => {
@@ -61,12 +109,12 @@ describe('Release Portal 路由', () => {
       global: { plugins: [router] },
     })
 
-    expect(document.title).toBe('发布中心 | SynlysAI')
+    expect(document.title).toBe('产品发布中心 | SynlysAI')
 
     setLanguage('en')
     await flushPromises()
 
-    expect(document.title).toBe('Release Portal | SynlysAI')
+    expect(document.title).toBe('Product Release Center | SynlysAI')
     wrapper.unmount()
   })
 
@@ -79,6 +127,10 @@ describe('Release Portal 路由', () => {
         name: { zh: 'Spec Agent', en: 'Spec Agent' },
         entryType: 'web',
         webUrl: 'https://example.com/spec',
+      }, {
+        id: 'smartaccess',
+        name: { zh: 'SmartAccess', en: 'SmartAccess' },
+        entryType: 'download',
       }],
       releases: [],
       timeline: [
@@ -118,6 +170,12 @@ describe('Release Portal 路由', () => {
     })
     await flushPromises()
 
+    await wrapper.get('[data-portal-tab="evolution"]').trigger('click')
+    await flushPromises()
+
+    expect(router.currentRoute.value.hash).toBe('#evolution')
+    expect(wrapper.get('[role="tabpanel"]').attributes('data-portal-panel')).toBe('evolution')
+
     await wrapper.get('[data-product-filter]').setValue('spec-agent')
     await flushPromises()
     await wrapper.get('[data-date-from]').setValue('2026-08-01')
@@ -133,8 +191,18 @@ describe('Release Portal 路由', () => {
       types: 'feature',
       view: 'panorama',
     })
+    expect(router.currentRoute.value.hash).toBe('#evolution')
     expect(wrapper.findAll('[data-timeline-release]')).toHaveLength(1)
     expect(wrapper.findAll('[data-timeline-child]')).toHaveLength(1)
+
+    await wrapper.get('[data-portal-tab="overview"]').trigger('click')
+    await flushPromises()
+    await wrapper.get('[data-download-product="smartaccess"]').trigger('click')
+    await flushPromises()
+
+    expect(router.currentRoute.value.query.product).toBe('smartaccess')
+    expect(router.currentRoute.value.hash).toBe('#downloads')
+    expect(wrapper.get('[role="tabpanel"]').attributes('data-portal-panel')).toBe('downloads')
 
     const refreshedRouter = createTestRouter()
     await refreshedRouter.push(router.currentRoute.value.fullPath)

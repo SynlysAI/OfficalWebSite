@@ -60,6 +60,8 @@ const formatDate = (value, language) => {
 
 const copy = computed(() => (props.language === 'en'
   ? {
+      eyebrow: 'Product Overview',
+      title: 'SynlysAI Products and Services',
       open: 'Open platform',
       viewDownloads: 'View downloads',
       unavailable: 'Entry pending',
@@ -68,6 +70,8 @@ const copy = computed(() => (props.language === 'en'
       updated: 'Updated',
     }
   : {
+      eyebrow: '产品概览',
+      title: 'SynlysAI 产品与服务',
       open: '打开平台',
       viewDownloads: '查看下载',
       unavailable: '入口待确认',
@@ -112,8 +116,8 @@ const selectDownloadProduct = (productId) => {
   <section class="release-products" aria-labelledby="release-products-title">
     <div class="release-products__header">
       <div>
-        <span class="section-label">{{ language === 'en' ? 'Product matrix' : '产品矩阵' }}</span>
-        <h2 id="release-products-title">{{ language === 'en' ? 'Six products, one release surface' : '六个产品，一个发布入口' }}</h2>
+        <span class="section-label">{{ copy.eyebrow }}</span>
+        <h2 id="release-products-title">{{ copy.title }}</h2>
       </div>
       <span class="release-products__count">{{ normalizedProducts.length }} / 6</span>
     </div>

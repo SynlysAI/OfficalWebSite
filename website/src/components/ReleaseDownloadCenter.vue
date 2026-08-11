@@ -58,10 +58,10 @@ const isManualRelease = (release) => (
 </script>
 
 <template>
-  <section id="downloads" class="release-downloads" aria-labelledby="release-downloads-title">
+  <section class="release-downloads" aria-labelledby="release-downloads-title">
     <div class="release-downloads__head">
       <div>
-        <span class="section-label">Downloads</span>
+        <span class="section-label">{{ language === 'en' ? 'OFFICIAL RESOURCES' : '官方资源' }}</span>
         <h2 id="release-downloads-title">{{ copy.downloads.title }}</h2>
       </div>
       <div class="release-downloads__filters">
@@ -132,7 +132,7 @@ const isManualRelease = (release) => (
                 </span>
               </div>
               <div class="release-download-asset__actions">
-                <a href="#release-timeline-title">{{ copy.downloads.timeline }}</a>
+                <a href="#evolution">{{ copy.downloads.timeline }}</a>
                 <a
                   v-if="asset.downloadUrl"
                   class="syn-button syn-button--primary"
@@ -143,7 +143,7 @@ const isManualRelease = (release) => (
                 </a>
                 <div v-else class="release-download-asset__error" role="status">
                   <span>{{ copy.downloads.failed }}</span>
-                  <a href="#release-downloads-title">{{ copy.downloads.retry }}</a>
+                  <a href="#downloads">{{ copy.downloads.retry }}</a>
                   <a href="#faq">{{ copy.downloads.support }}</a>
                 </div>
               </div>

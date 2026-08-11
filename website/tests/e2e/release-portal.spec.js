@@ -96,31 +96,71 @@ test('Release Portal 核心流程在四个视口保持可用', async ({ page }, 
   await page.goto('/releases')
 
   await expect(page.locator('[data-product-card]')).toHaveCount(6)
-  await expect(page).toHaveTitle('发布中心 | SynlysAI')
-  await expect(page.locator('[data-timeline-release]')).toHaveCount(1)
+  await expect(page).toHaveTitle('产品发布中心 | SynlysAI')
+  await expect(page.locator('[role="tablist"] [role="tab"]')).toHaveCount(5)
+  await expect(page.locator('[data-portal-tab="overview"]')).toHaveAttribute('aria-selected', 'true')
+  await expect(page.locator('[role="tabpanel"]')).toHaveAttribute('data-portal-panel', 'overview')
+
+  const tabRows = await page.locator('[role="tab"]').evaluateAll((tabs) => (
+    new Set(tabs.map((tab) => Math.round(tab.getBoundingClientRect().top))).size
+  ))
+  expect(tabRows).toBe(1)
+  await expect(page.locator('[role="tablist"]')).toHaveCSS('display', 'grid')
+  await expect(page.locator('[data-portal-tab="overview"]')).toHaveCSS('min-height', '56px')
 
   await page.locator('.language-switch__button').filter({ hasText: 'EN' }).click()
-  await expect(page.locator('h1')).toContainText('Release Portal')
-  await expect(page).toHaveTitle('Release Portal | SynlysAI')
+  await expect(page.locator('h1')).toContainText('Product Release Center')
+  await expect(page).toHaveTitle('Product Release Center | SynlysAI')
 
-  await page.locator('[data-product-filter]').selectOption('smartaccess')
+  await page.locator('[data-portal-tab="evolution"]').click()
+  await expect(page.locator('[data-portal-tab="evolution"]')).toHaveAttribute('aria-selected', 'true')
+  await expect(page.locator('[role="tabpanel"]')).toHaveAttribute('data-portal-panel', 'evolution')
+
+  const productFilter = page.locator('[data-product-filter]')
+  await page.waitForTimeout(400)
+  await productFilter.evaluate((element) => {
+    const top = window.scrollY + element.getBoundingClientRect().top - 80
+    window.scrollTo({ top: Math.max(0, top), behavior: 'instant' })
+  })
+  const filterScrollY = await page.evaluate(() => window.scrollY)
+  await productFilter.evaluate((element) => {
+    element.value = 'smartaccess'
+    element.dispatchEvent(new Event('change', { bubbles: true }))
+  })
   await expect(page).toHaveURL(/product=smartaccess/)
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(filterScrollY)
   await page.locator('[data-view="panorama"]').click()
   await expect(page).toHaveURL(/view=panorama/)
   await expect(page.locator('[data-timeline-child]')).toHaveCount(1)
 
+  await page.locator('[data-portal-tab="releases"]').click()
+  await expect(page.locator('[role="tabpanel"]')).toContainText('Release history')
+  await expect(page.locator('[data-timeline-child]')).toHaveCount(0)
+
+  await page.locator('[data-portal-tab="downloads"]').click()
   const downloadLink = page.locator('[data-download-link]').first()
   await expect(downloadLink).toHaveAttribute('href', /^\/api\/download\//)
 
+  await page.locator('[data-portal-tab="evolution"]').click()
+  await page.locator('[data-product-filter]').selectOption('spec-agent')
+  await expect(page).toHaveURL(/product=spec-agent/)
+  await page.locator('[data-portal-tab="faq"]').click()
   await page.locator('[data-faq-search]').fill('install')
   await expect(page.locator('[data-faq-item]')).toHaveCount(1)
   await page.locator('[data-faq-item] summary').click()
   await page.locator('[data-faq-unhelpful]').click()
   await expect(page.locator('[data-faq-feedback-error]')).toBeVisible()
+  await page.locator('[data-faq-timeline-link]').click()
+  await expect(page.locator('[role="tabpanel"]')).toHaveAttribute('data-portal-panel', 'evolution')
+  await expect(page).toHaveURL(/product=smartaccess.*timeline=release-v2.*#evolution$/)
+  await expect(page.locator('#timeline-release-v2')).toHaveClass(/is-targeted/)
 
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)
   expect(overflow).toBe(false)
   expect(pageErrors).toEqual([])
 
+  await page.locator('.language-switch__button').filter({ hasText: '中文' }).click()
+  await page.locator('[data-portal-tab="overview"]').click()
+  await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }))
   await page.screenshot({ path: testInfo.outputPath(`release-portal-${testInfo.project.name}.png`), fullPage: true })
 })

@@ -37,4 +37,3 @@ Tab 使用 `role="tablist"`、`role="tab"`、`aria-selected` 与 `aria-controls`
 - 每次只渲染一个内容面板，原有筛选、时间线、下载和 FAQ 交互继续可用。
 - 中英文页面标题、Tab 与各区域标题使用正式对外口径。
 - 单元测试、构建与 Playwright 多视口截图通过。
-

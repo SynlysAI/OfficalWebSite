@@ -21,6 +21,14 @@ const props = defineProps({
     type: String,
     default: 'release',
   },
+  title: {
+    type: String,
+    default: '',
+  },
+  targetId: {
+    type: String,
+    default: '',
+  },
 })
 
 const expandedReleaseIds = ref(new Set())
@@ -145,16 +153,20 @@ const toggleRelease = (eventId) => {
 <template>
   <section class="release-timeline-section" aria-labelledby="release-timeline-title">
     <div class="release-timeline-section__head">
-      <span class="section-label">Timeline</span>
-      <h2 id="release-timeline-title">{{ copy.timeline.title }}</h2>
+      <span class="section-label">{{ language === 'en' ? 'PRODUCT UPDATES' : '产品更新' }}</span>
+      <h2 id="release-timeline-title">{{ title || copy.timeline.title }}</h2>
     </div>
 
     <div v-if="groups.length || orphanEvents.length" class="release-timeline">
       <article
         v-for="group in groups"
         :key="group.event.id"
+        :id="`timeline-${group.event.id}`"
         class="release-timeline__group"
-        :class="{ 'has-children': group.children.length }"
+        :class="{
+          'has-children': group.children.length,
+          'is-targeted': targetId === group.event.id,
+        }"
         :data-timeline-release="group.event.id"
       >
         <div class="release-timeline__rail" aria-hidden="true"></div>
@@ -195,7 +207,9 @@ const toggleRelease = (eventId) => {
           <details
             v-for="child in group.children"
             :key="child.id"
+            :id="`timeline-${child.id}`"
             class="release-child-node"
+            :class="{ 'is-targeted': targetId === child.id }"
             data-timeline-child
             open
           >
@@ -217,7 +231,9 @@ const toggleRelease = (eventId) => {
       <details
         v-for="event in orphanEvents"
         :key="event.id"
+        :id="`timeline-${event.id}`"
         class="release-child-node release-child-node--orphan"
+        :class="{ 'is-targeted': targetId === event.id }"
         data-timeline-child
         open
       >

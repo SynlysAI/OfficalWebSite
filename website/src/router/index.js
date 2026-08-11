@@ -17,7 +17,7 @@ export const routes = [
     name: 'releases',
     component: ReleasePortalView,
     meta: {
-      title: 'Release Portal | SynlysAI',
+      title: 'Product Release Center | SynlysAI',
     },
   },
   {
@@ -35,13 +35,21 @@ export const routes = [
 export const createAppRouter = (history = createWebHistory()) => createRouter({
   history,
   routes,
-  scrollBehavior(to) {
-    if (to.hash) {
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    }
+
+    if (to.hash && to.hash !== from.hash) {
       return {
         el: to.hash,
         behavior: 'smooth',
         top: 0,
       }
+    }
+
+    if (to.path === from.path) {
+      return false
     }
 
     return { top: 0 }

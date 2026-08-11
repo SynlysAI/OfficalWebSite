@@ -22,6 +22,8 @@ const props = defineProps({
   },
 })
 
+const emit = defineEmits(['select-timeline'])
+
 const search = ref('')
 const category = ref('')
 const productId = ref('')
@@ -104,13 +106,23 @@ const sendFeedback = async (faq, helpful) => {
     ? { pending: false, status: 'success', counts: result.counts }
     : { pending: false, status: 'error', error: result.error }
 }
+
+/** 切换到技术演进并请求定位关联事件。
+ *
+ * @param {MouseEvent} event 链接点击事件。
+ * @param {string} timelineId 关联时间线事件 ID。
+ */
+const openTimeline = (event, timelineId) => {
+  event.preventDefault()
+  emit('select-timeline', timelineId)
+}
 </script>
 
 <template>
-  <section id="faq" class="release-faq" aria-labelledby="release-faq-title">
+  <section class="release-faq" aria-labelledby="release-faq-title">
     <div class="release-faq__head">
       <div>
-        <span class="section-label">FAQ</span>
+        <span class="section-label">{{ language === 'en' ? 'SUPPORT' : '使用支持' }}</span>
         <h2 id="release-faq-title">{{ copy.faq.title }}</h2>
       </div>
       <input v-model="search" type="search" data-faq-search :placeholder="copy.faq.search" />
@@ -156,8 +168,10 @@ const sendFeedback = async (faq, helpful) => {
             <a
               v-for="timelineId in faq.relatedTimelineIds"
               :key="timelineId"
-              :href="`#${timelineId}`"
+              href="#evolution"
+              :data-timeline-id="timelineId"
               data-faq-timeline-link
+              @click="openTimeline($event, timelineId)"
             >
               {{ copy.faq.related }} · {{ timelineId }}
             </a>

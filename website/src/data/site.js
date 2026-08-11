@@ -14,11 +14,11 @@ export const brand = {
 export const pageTitles = {
   zh: {
     home: 'SynlysAI | AI4MS 自主科研平台',
-    releases: '发布中心 | SynlysAI',
+    releases: '产品发布中心 | SynlysAI',
   },
   en: {
     home: 'SynlysAI | AI4MS autonomous research platform',
-    releases: 'Release Portal | SynlysAI',
+    releases: 'Product Release Center | SynlysAI',
   },
 }
 
@@ -35,10 +35,10 @@ export const copy = {
       { label: '产品矩阵', to: { name: 'home', hash: '#products' } },
       { label: '平台能力', to: { name: 'home', hash: '#matrix' } },
       { label: '关于我们', to: { name: 'home', hash: '#about' } },
-      { label: '发布中心', to: { name: 'releases' } },
+      { label: '产品发布', to: { name: 'releases' } },
     ],
     footerLinks: [
-      { label: '发布中心', to: { name: 'releases' } },
+      { label: '产品发布', to: { name: 'releases' } },
     ],
     actions: {
       demo: '产品体验',
@@ -287,9 +287,17 @@ export const copy = {
       ],
     },
     releases: {
-      eyebrow: 'Release Portal',
-      title: '发布中心',
-      summary: '统一查看 SynlysAI 六个产品的正式版本、技术演进、下载资源与常见问题。',
+      eyebrow: 'PRODUCT RELEASES',
+      title: '产品发布中心',
+      summary: '集中呈现 SynlysAI 产品信息、技术进展、版本发布、官方资源与使用支持。',
+      navigationLabel: '产品发布中心导航',
+      tabs: {
+        overview: '产品概览',
+        evolution: '技术演进',
+        releases: '版本发布',
+        downloads: '资源下载',
+        faq: '常见问题',
+      },
       loading: '正在加载发布数据...',
       errorTitle: '发布数据暂不可用',
       errorBody: '当前无法读取已审核的发布数据，请稍后重试。',
@@ -316,10 +324,10 @@ export const copy = {
       { label: 'Products', to: { name: 'home', hash: '#products' } },
       { label: 'Capabilities', to: { name: 'home', hash: '#matrix' } },
       { label: 'About', to: { name: 'home', hash: '#about' } },
-      { label: 'Release Portal', to: { name: 'releases' } },
+      { label: 'Releases', to: { name: 'releases' } },
     ],
     footerLinks: [
-      { label: 'Release Portal', to: { name: 'releases' } },
+      { label: 'Releases', to: { name: 'releases' } },
     ],
     actions: {
       demo: 'Product Experience',
@@ -570,9 +578,17 @@ export const copy = {
       ],
     },
     releases: {
-      eyebrow: 'Release Portal',
-      title: 'Release Portal',
-      summary: 'Explore approved releases, technical evolution, downloads, and FAQs across six SynlysAI products.',
+      eyebrow: 'PRODUCT RELEASES',
+      title: 'Product Release Center',
+      summary: 'Explore SynlysAI products, technical progress, official releases, resources, and support.',
+      navigationLabel: 'Product release navigation',
+      tabs: {
+        overview: 'Product Overview',
+        evolution: 'Technical Evolution',
+        releases: 'Releases',
+        downloads: 'Resources',
+        faq: 'FAQ',
+      },
       loading: 'Loading release data...',
       errorTitle: 'Release data is temporarily unavailable',
       errorBody: 'Approved release data cannot be loaded right now. Please try again later.',

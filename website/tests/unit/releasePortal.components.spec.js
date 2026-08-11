@@ -72,6 +72,8 @@ describe('ReleaseProductGrid', () => {
     })
 
     const cards = wrapper.findAll('[data-product-card]')
+    expect(wrapper.get('.section-label').text()).toBe('产品概览')
+    expect(wrapper.get('h2').text()).toBe('SynlysAI 产品与服务')
     expect(cards).toHaveLength(6)
     expect(cards.map((card) => card.attributes('data-product-card'))).toEqual([
       'ai4ms',
@@ -183,9 +185,19 @@ describe('ReleaseFilters', () => {
 describe('ReleaseTimeline', () => {
   it('里程碑视图只展示 Release 节点', () => {
     const wrapper = mount(ReleaseTimeline, {
-      props: { events: timelineEvents, releases, language: 'zh', view: 'release' },
+      props: {
+        events: timelineEvents,
+        releases,
+        language: 'zh',
+        view: 'release',
+        title: '版本发布记录',
+        targetId: 'release-v1',
+      },
     })
 
+    expect(wrapper.get('h2').text()).toBe('版本发布记录')
+    expect(wrapper.get('[data-timeline-release="release-v1"]').attributes('id')).toBe('timeline-release-v1')
+    expect(wrapper.get('[data-timeline-release="release-v1"]').classes()).toContain('is-targeted')
     expect(wrapper.findAll('[data-timeline-release]')).toHaveLength(1)
     expect(wrapper.find('[data-timeline-child]').exists()).toBe(false)
     expect(wrapper.text()).toContain('最新稳定版')
@@ -197,6 +209,7 @@ describe('ReleaseTimeline', () => {
     })
 
     expect(wrapper.get('[data-timeline-child]').text()).toContain('1234567')
+    expect(wrapper.get('[data-release-details]').text()).toBe('查看版本说明')
     await wrapper.get('[data-release-details]').trigger('click')
 
     expect(wrapper.text()).toContain('发布说明')
@@ -268,6 +281,7 @@ describe('ReleaseDownloadCenter', () => {
     })
 
     const versions = wrapper.findAll('[data-download-release]')
+    expect(wrapper.get('h2').text()).toBe('版本与资源')
     expect(wrapper.findAll('[data-download-product]')).toHaveLength(1)
     expect(versions.map((node) => node.attributes('data-download-release'))).toEqual([
       'v2.0.0',
@@ -276,6 +290,7 @@ describe('ReleaseDownloadCenter', () => {
     expect(versions[0].text()).toContain('最新稳定版')
     expect(versions[0].text()).toContain('手工发布')
     expect(versions[1].text()).toContain('预发布')
+    expect(wrapper.get('.release-download-asset__actions > a').attributes('href')).toBe('#evolution')
   })
 
   it('按平台与架构筛选资源且下载只指向同域接口', async () => {
@@ -310,6 +325,21 @@ describe('ReleaseDownloadCenter', () => {
     })
 
     expect(wrapper.get('[data-download-empty]').text()).toContain('暂无可下载版本')
+  })
+
+  it('下载地址无效时重试入口保持在资源下载 Tab', () => {
+    const wrapper = mount(ReleaseDownloadCenter, {
+      props: {
+        products: createProducts(),
+        releases: [{
+          ...downloadReleases[0],
+          assets: [{ name: 'invalid.zip', platform: 'windows', arch: 'x64' }],
+        }],
+        language: 'zh',
+      },
+    })
+
+    expect(wrapper.get('.release-download-asset__error a').attributes('href')).toBe('#downloads')
   })
 })
 
@@ -358,6 +388,7 @@ describe('ReleaseFaqCenter', () => {
     })
 
     expect(wrapper.findAll('[data-faq-item]')).toHaveLength(2)
+    expect(wrapper.get('h2').text()).toBe('常见问题')
     await wrapper.get('[data-faq-search]').setValue('安装')
     expect(wrapper.findAll('[data-faq-item]')).toHaveLength(1)
     expect(wrapper.get('[data-faq-item]').find('mark').text()).toBe('安装')
@@ -380,7 +411,10 @@ describe('ReleaseFaqCenter', () => {
 
     await wrapper.get('[data-faq-item] summary').trigger('click')
     expect(wrapper.get('[data-faq-answer]').text()).toContain('运行安装包')
-    expect(wrapper.get('[data-faq-timeline-link]').attributes('href')).toBe('#release-v1')
+    expect(wrapper.get('[data-faq-timeline-link]').attributes('href')).toBe('#evolution')
+    expect(wrapper.get('[data-faq-timeline-link]').text()).toContain('查看相关更新')
+    await wrapper.get('[data-faq-timeline-link]').trigger('click')
+    expect(wrapper.emitted('select-timeline')).toEqual([['release-v1']])
     await wrapper.get('[data-faq-helpful]').trigger('click')
     await flushPromises()
     expect(wrapper.get('[data-faq-feedback-status]').text()).toContain('感谢反馈')
