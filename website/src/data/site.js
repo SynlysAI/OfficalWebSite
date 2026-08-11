@@ -11,19 +11,14 @@ export const brand = {
   heroVisual: '/assets/ai4ms-hero-bg-new.png',
 }
 
-export const releaseSource = {
-  owner: import.meta.env.VITE_GITHUB_OWNER || 'SynlysAI',
-  repo: import.meta.env.VITE_GITHUB_REPO || '.github',
-}
-
 export const pageTitles = {
   zh: {
     home: 'SynlysAI | AI4MS 自主科研平台',
-    changelog: '更新日志 | SynlysAI',
+    releases: '发布中心 | SynlysAI',
   },
   en: {
     home: 'SynlysAI | AI4MS autonomous research platform',
-    changelog: 'Changelog | SynlysAI',
+    releases: 'Release Portal | SynlysAI',
   },
 }
 
@@ -40,10 +35,10 @@ export const copy = {
       { label: '产品矩阵', to: { name: 'home', hash: '#products' } },
       { label: '平台能力', to: { name: 'home', hash: '#matrix' } },
       { label: '关于我们', to: { name: 'home', hash: '#about' } },
-      { label: '更新日志', to: { name: 'changelog' } },
+      { label: '发布中心', to: { name: 'releases' } },
     ],
     footerLinks: [
-      { label: '更新日志', to: { name: 'changelog' } },
+      { label: '发布中心', to: { name: 'releases' } },
     ],
     actions: {
       demo: '产品体验',
@@ -287,20 +282,27 @@ export const copy = {
         { src: '/assets/用户友好.svg', alt: '用户友好', caption: '用户友好 — 低学习成本、直观交互与协作体验' },
       ],
     },
-    changelog: {
-      eyebrow: 'Changelog',
-      title: '更新日志',
-      summary: '记录 SynlysAI 每次版本发布的新功能、问题修复与体验改进，所有更新均源自 GitHub 公开记录。',
-      sourceAction: '查看 GitHub 更新源',
-      loading: '正在从 GitHub 拉取更新日志...',
-      errorTitle: '暂时无法读取 GitHub 更新数据',
-      sourceLink: '打开 GitHub 更新源',
-      emptyTitle: '暂无公开更新',
-      emptyBody: '仓库还没有可展示的公开更新记录。',
-      summaryLabels: ['最新版本', '最近更新', '公开记录'],
-      originalAction: 'GitHub 原文',
-      unpublished: '未更新',
-      emptyReleaseBody: '该版本暂无更新说明正文。',
+    releases: {
+      eyebrow: 'Release Portal',
+      title: '发布中心',
+      summary: '统一查看 SynlysAI 六个产品的正式版本、技术演进、下载资源与常见问题。',
+      loading: '正在加载发布数据...',
+      errorTitle: '发布数据暂不可用',
+      errorBody: '当前无法读取已审核的发布数据，请稍后重试。',
+      retry: '重试',
+      emptyTitle: '暂无发布记录',
+      emptyBody: '当前筛选条件下没有可展示的版本或技术演进。',
+      filters: {
+        product: '产品',
+        startDate: '开始日期',
+        endDate: '结束日期',
+        changeTypes: '变更类型',
+        view: '视图',
+      },
+      views: {
+        release: '里程碑',
+        panorama: '全景演进',
+      },
     },
   },
   en: {
@@ -310,10 +312,10 @@ export const copy = {
       { label: 'Products', to: { name: 'home', hash: '#products' } },
       { label: 'Capabilities', to: { name: 'home', hash: '#matrix' } },
       { label: 'About', to: { name: 'home', hash: '#about' } },
-      { label: 'Changelog', to: { name: 'changelog' } },
+      { label: 'Release Portal', to: { name: 'releases' } },
     ],
     footerLinks: [
-      { label: 'Changelog', to: { name: 'changelog' } },
+      { label: 'Release Portal', to: { name: 'releases' } },
     ],
     actions: {
       demo: 'Product Experience',
@@ -559,20 +561,27 @@ export const copy = {
         { src: '/assets/用户友好.svg', alt: 'User-friendly', caption: 'User-friendly — low learning curve, intuitive interaction, and collaboration' },
       ],
     },
-    changelog: {
-      eyebrow: 'Changelog',
-      title: 'Changelog',
-      summary: 'Track SynlysAI website and product release cadence with key capabilities, fixes, and traceable release sources.',
-      sourceAction: 'View GitHub Releases',
-      loading: 'Loading changelog from GitHub...',
-      errorTitle: 'GitHub release data is temporarily unavailable',
-      sourceLink: 'Open GitHub Releases',
-      emptyTitle: 'No public releases yet',
-      emptyBody: 'This repository does not have public release records to show yet.',
-      summaryLabels: ['Latest version', 'Recent release', 'Public records'],
-      originalAction: 'GitHub source',
-      unpublished: 'Unpublished',
-      emptyReleaseBody: 'This release does not include release notes.',
+    releases: {
+      eyebrow: 'Release Portal',
+      title: 'Release Portal',
+      summary: 'Explore approved releases, technical evolution, downloads, and FAQs across six SynlysAI products.',
+      loading: 'Loading release data...',
+      errorTitle: 'Release data is temporarily unavailable',
+      errorBody: 'Approved release data cannot be loaded right now. Please try again later.',
+      retry: 'Retry',
+      emptyTitle: 'No release records',
+      emptyBody: 'No releases or technical changes match the current filters.',
+      filters: {
+        product: 'Product',
+        startDate: 'Start date',
+        endDate: 'End date',
+        changeTypes: 'Change types',
+        view: 'View',
+      },
+      views: {
+        release: 'Milestones',
+        panorama: 'Panorama',
+      },
     },
   },
 }
