@@ -64,4 +64,20 @@ describe('GET /api/release-manifest', () => {
     expect(JSON.stringify(body)).not.toContain('secret stack')
     expect(body).not.toHaveProperty('stack')
   })
+
+  it.each([
+    ['空对象', {}],
+    ['不兼容 schema', { ...createManifest(), schemaVersion: 2 }],
+    ['缺少集合', { ...createManifest(), faqs: undefined }],
+    ['集合包含非法元素', { ...createManifest(), products: [null] }],
+  ])('manifest 为%s时返回 503', async (label, manifest) => {
+    const response = await onRequestGet({
+      env: { RELEASE_BUCKET: createBucket(manifest) },
+    })
+
+    expect(response.status).toBe(503)
+    await expect(response.json()).resolves.toEqual({
+      error: '发布数据暂不可用',
+    })
+  })
 })

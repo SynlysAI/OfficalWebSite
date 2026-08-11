@@ -84,7 +84,7 @@ export const onRequestPost = async ({ request, env }) => {
   try {
     const day = new Date().toISOString().slice(0, 10)
     const fingerprint = await createFingerprint(day, request.headers)
-    const insertResult = await env.FAQ_DB.prepare(`
+    await env.FAQ_DB.prepare(`
       INSERT INTO faq_feedback (faq_id, helpful, day, fingerprint)
       VALUES (?, ?, ?, ?)
       ON CONFLICT(faq_id, day, fingerprint) DO NOTHING
@@ -105,7 +105,6 @@ export const onRequestPost = async ({ request, env }) => {
     return jsonResponse({
       helpful: Number(counts?.helpful || 0),
       unhelpful: Number(counts?.unhelpful || 0),
-      recorded: Number(insertResult?.meta?.changes || 0) > 0,
     }, 200)
   } catch {
     return jsonResponse({ error: '反馈服务暂不可用' }, 503)

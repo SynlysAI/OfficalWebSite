@@ -150,12 +150,10 @@ describe('POST /api/faq-feedback', () => {
     expect(await firstResponse.json()).toEqual({
       helpful: 1,
       unhelpful: 0,
-      recorded: true,
     })
     expect(await duplicateResponse.json()).toEqual({
       helpful: 1,
       unhelpful: 0,
-      recorded: false,
     })
     expect(database.rows).toHaveLength(1)
     expect(database.calls[0].sql).toMatch(
@@ -191,11 +189,13 @@ describe('POST /api/faq-feedback', () => {
       options,
     ))
 
-    expect((await firstResponse.json()).recorded).toBe(true)
+    expect(await firstResponse.json()).toEqual({
+      helpful: 0,
+      unhelpful: 1,
+    })
     expect(await duplicateResponse.json()).toEqual({
       helpful: 0,
       unhelpful: 1,
-      recorded: false,
     })
     expect(database.rows).toHaveLength(1)
   })
