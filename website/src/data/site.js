@@ -138,9 +138,11 @@ export const copy = {
       eyebrow: '产品矩阵',
       title: '三大产品覆盖分析、材料研发和实验执行',
       summary: 'AI4MS 是统一入口；Spec Agent、Poly Agent 和 SpecLabOS 分别承接谱图智能、高分子研发协作和实验系统运行，三者协同构成完整的产品矩阵。',
+      releaseAction: '查看发布动态',
       cards: [
         {
           code: '01',
+          productId: 'spec-agent',
           name: 'Spec Agent',
           category: '谱图智能分析',
           description:
@@ -150,6 +152,7 @@ export const copy = {
         },
         {
           code: '02',
+          productId: 'poly-agent',
           name: 'Poly Agent',
           category: '高分子材料研发协作底座',
           description:
@@ -159,6 +162,7 @@ export const copy = {
         },
         {
           code: '03',
+          productId: 'speclabos',
           name: 'SpecLabOS',
           category: '实验系统与设备接入',
           description:
@@ -417,9 +421,11 @@ export const copy = {
       title: 'Three products cover analysis, materials R&D, and lab execution',
       summary:
         'AI4MS is the unified entry. Spec Agent, Poly Agent, and SpecLabOS respectively carry spectral intelligence, polymer R&D collaboration, and lab-system operations — together forming a complete product matrix.',
+      releaseAction: 'View release activity',
       cards: [
         {
           code: '01',
+          productId: 'spec-agent',
           name: 'Spec Agent',
           category: 'Spectral intelligence',
           description:
@@ -429,6 +435,7 @@ export const copy = {
         },
         {
           code: '02',
+          productId: 'poly-agent',
           name: 'Poly Agent',
           category: 'Polymer R&D collaboration base',
           description:
@@ -438,6 +445,7 @@ export const copy = {
         },
         {
           code: '03',
+          productId: 'speclabos',
           name: 'SpecLabOS',
           category: 'Lab system and instrument access',
           description:

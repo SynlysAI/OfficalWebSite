@@ -36,6 +36,14 @@ defineProps({
           <div class="product-card__chips">
             <span v-for="bullet in card.bullets" :key="bullet">{{ bullet }}</span>
           </div>
+
+          <RouterLink
+            v-if="card.productId"
+            class="product-card__release-link"
+            :to="{ name: 'releases', query: { product: card.productId } }"
+          >
+            {{ content.releaseAction }}
+          </RouterLink>
         </article>
       </div>
 
