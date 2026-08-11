@@ -4,7 +4,9 @@ import { mount, RouterLinkStub } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import ProductMatrix from '../../src/components/ProductMatrix.vue'
+import ReleaseFilters from '../../src/components/ReleaseFilters.vue'
 import ReleaseProductGrid from '../../src/components/ReleaseProductGrid.vue'
+import ReleaseTimeline from '../../src/components/ReleaseTimeline.vue'
 
 /** 创建六产品测试数据。
  *
@@ -27,6 +29,32 @@ const releases = [
     channel: 'stable',
     isLatestStable: true,
     publishedAt: '2026-08-10T00:00:00.000Z',
+  },
+]
+
+const timelineEvents = [
+  {
+    id: 'release-v1',
+    productId: 'spec-agent',
+    level: 'release',
+    occurredAt: '2026-08-10T00:00:00.000Z',
+    version: 'v1.0.0',
+    changeType: 'release',
+    title: { zh: '正式发布', en: 'Stable release' },
+    summary: { zh: '首个稳定版本', en: 'First stable version' },
+    detailsMarkdown: { zh: '## 发布说明', en: '## Release notes' },
+  },
+  {
+    id: 'commit-a',
+    productId: 'spec-agent',
+    level: 'commit',
+    occurredAt: '2026-08-09T00:00:00.000Z',
+    version: 'v1.0.0',
+    changeType: 'feature',
+    module: 'parser',
+    title: { zh: '解析增强', en: 'Parser update' },
+    summary: { zh: '新增解析能力', en: 'Added parsing support' },
+    source: { shas: ['1234567890abcdef'] },
   },
 ]
 
@@ -110,5 +138,73 @@ describe('ProductMatrix', () => {
       query: { product: 'spec-agent' },
     })
     expect(wrapper.text()).toContain('查看发布动态')
+  })
+})
+
+describe('ReleaseFilters', () => {
+  it('默认里程碑并输出产品、日期、类型和全景组合状态', async () => {
+    const wrapper = mount(ReleaseFilters, {
+      props: {
+        products: createProducts(),
+        changeTypes: ['feature', 'fix'],
+        language: 'zh',
+        modelValue: {
+          productId: '',
+          dateFrom: '',
+          dateTo: '',
+          changeTypes: [],
+          view: 'release',
+        },
+      },
+    })
+
+    expect(wrapper.get('[data-view="release"]').attributes('aria-pressed')).toBe('true')
+    await wrapper.get('[data-product-filter]').setValue('spec-agent')
+    await wrapper.setProps({ modelValue: { ...wrapper.emitted('update:modelValue')[0][0], dateFrom: '', dateTo: '', changeTypes: [], view: 'release' } })
+    await wrapper.get('[data-date-from]').setValue('2026-08-01')
+    await wrapper.setProps({ modelValue: { ...wrapper.emitted('update:modelValue').at(-1)[0], dateTo: '', changeTypes: [], view: 'release' } })
+    await wrapper.get('[data-change-type="feature"]').setValue(true)
+    await wrapper.setProps({ modelValue: { ...wrapper.emitted('update:modelValue').at(-1)[0] } })
+    await wrapper.get('[data-view="panorama"]').trigger('click')
+
+    expect(wrapper.emitted('update:modelValue').at(-1)[0]).toEqual({
+      productId: 'spec-agent',
+      dateFrom: '2026-08-01',
+      dateTo: '',
+      changeTypes: ['feature'],
+      view: 'panorama',
+    })
+  })
+})
+
+describe('ReleaseTimeline', () => {
+  it('里程碑视图只展示 Release 节点', () => {
+    const wrapper = mount(ReleaseTimeline, {
+      props: { events: timelineEvents, releases, language: 'zh', view: 'release' },
+    })
+
+    expect(wrapper.findAll('[data-timeline-release]')).toHaveLength(1)
+    expect(wrapper.find('[data-timeline-child]').exists()).toBe(false)
+    expect(wrapper.text()).toContain('最新稳定版')
+  })
+
+  it('全景视图归组子节点并展开安全详情', async () => {
+    const wrapper = mount(ReleaseTimeline, {
+      props: { events: timelineEvents, releases, language: 'zh', view: 'panorama' },
+    })
+
+    expect(wrapper.get('[data-timeline-child]').text()).toContain('1234567')
+    await wrapper.get('[data-release-details]').trigger('click')
+
+    expect(wrapper.text()).toContain('发布说明')
+    expect(wrapper.get('[data-release-details]').attributes('aria-expanded')).toBe('true')
+  })
+
+  it('没有匹配事件时显示明确空状态', () => {
+    const wrapper = mount(ReleaseTimeline, {
+      props: { events: [], releases: [], language: 'zh', view: 'release' },
+    })
+
+    expect(wrapper.get('[data-timeline-empty]').text()).toContain('暂无匹配的技术演进')
   })
 })
