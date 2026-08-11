@@ -1363,6 +1363,28 @@ a:focus-visible {
   font-size: 14px;
 }
 
+.release-loading-skeleton {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  width: 100%;
+  margin-top: 18px;
+}
+
+.release-loading-skeleton span {
+  display: block;
+  height: 92px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--surface-tint), var(--surface), var(--surface-tint));
+  background-size: 200% 100%;
+  animation: release-loading 1.4s ease-in-out infinite;
+}
+
+@keyframes release-loading {
+  from { background-position: 100% 0; }
+  to { background-position: -100% 0; }
+}
+
 .product-card__release-link {
   display: inline-flex;
   align-items: center;
@@ -2250,6 +2272,10 @@ a:focus-visible {
     align-items: flex-start;
     flex-direction: column;
     gap: 8px;
+  }
+
+  .release-loading-skeleton {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 

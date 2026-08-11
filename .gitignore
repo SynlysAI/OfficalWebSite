@@ -5,3 +5,4 @@ node_modules/
 /.worktrees/
 /website/.wrangler/
 /website/_worker.bundle
+/website/test-results/

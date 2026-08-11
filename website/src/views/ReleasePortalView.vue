@@ -165,6 +165,9 @@ onMounted(loadManifest)
       <div class="section-shell">
         <div v-if="loading" class="release-state" data-portal-state="loading">
           <strong>{{ pageCopy.loading }}</strong>
+          <div class="release-loading-skeleton" aria-hidden="true">
+            <span v-for="item in 3" :key="item"></span>
+          </div>
         </div>
 
         <div v-else-if="errorMessage" class="release-state release-state--warning" data-portal-state="error">
