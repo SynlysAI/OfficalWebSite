@@ -1,0 +1,14 @@
+name = "synlysai-official-site"
+compatibility_date = "2026-08-11"
+pages_build_output_dir = "./dist"
+
+[[r2_buckets]]
+binding = "RELEASE_BUCKET"
+bucket_name = "synlysai-release-assets"
+
+[[d1_databases]]
+binding = "FAQ_DB"
+database_name = "synlysai-release-feedback"
+# 执行 `wrangler d1 create synlysai-release-feedback` 后替换此占位值。
+database_id = "REPLACE_WITH_D1_DATABASE_ID"
+migrations_dir = "./migrations"
