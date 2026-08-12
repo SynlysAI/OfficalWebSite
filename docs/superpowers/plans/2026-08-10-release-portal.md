@@ -249,7 +249,7 @@ website/
 
 ## 假设与边界
 
-- Cloudflare Pages 绑定同一自定义域；R2 bucket 名称为 `synlysai-release-assets`，D1 数据库名为 `synlysai-release-feedback`，真实资源 ID 在部署命令输出后写入 Wrangler 配置。
+- Cloudflare Pages 绑定同一自定义域；R2 bucket 名称为 `synlysai-release-portal`，D1 数据库名为 `synlysai-release-feedback`，真实资源 ID 在部署命令输出后写入 Wrangler 配置。
 - 官网不实现登录、FAQ 编辑器、AI 生成或 GitHub 权限管理；这些属于 `.github` GitOps 或二期 CMS。
 - 现有 `githubReleases.js` 在无引用后删除；不保留浏览器直连 GitHub 的隐式 fallback。
 - 目前没有可验证的 SmartAccess 公开 Release 时，下载中心显示空状态，不伪造版本号、安装包或兼容性结论。

@@ -4,7 +4,7 @@ pages_build_output_dir = "./dist"
 
 [[r2_buckets]]
 binding = "RELEASE_BUCKET"
-bucket_name = "synlysai-release-assets"
+bucket_name = "synlysai-release-portal"
 
 [[d1_databases]]
 binding = "FAQ_DB"
