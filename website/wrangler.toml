@@ -10,5 +10,5 @@ bucket_name = "synlysai-release-portal"
 binding = "FAQ_DB"
 database_name = "synlysai-release-feedback"
 # 执行 `wrangler d1 create synlysai-release-feedback` 后替换此占位值。
-database_id = "REPLACE_WITH_D1_DATABASE_ID"
+database_id = "8a747eda-cdf0-446e-8292-ab5d1f33e4d2"
 migrations_dir = "./migrations"
