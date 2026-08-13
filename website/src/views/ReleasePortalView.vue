@@ -29,7 +29,7 @@ const readQueryValue = (value) => (
 
 const selectedProduct = computed(() => readQueryValue(route.query.product))
 const viewMode = computed(() => (
-  route.query.view === 'panorama' ? 'panorama' : 'release'
+  route.query.view === 'release' ? 'release' : 'panorama'
 ))
 const selectedChangeTypes = computed(() => {
   const value = readQueryValue(route.query.types)
@@ -223,8 +223,8 @@ const updateFilters = async (nextFilters) => {
   if (nextFilters.changeTypes.length) {
     query.types = nextFilters.changeTypes.join(',')
   }
-  if (nextFilters.view === 'panorama') {
-    query.view = 'panorama'
+  if (nextFilters.view === 'release') {
+    query.view = 'release'
   }
 
   await router.replace({ query, hash: route.hash })

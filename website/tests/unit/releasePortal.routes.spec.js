@@ -123,12 +123,12 @@ describe('Release Portal 路由', () => {
       schemaVersion: 1,
       generatedAt: '2026-08-11T00:00:00.000Z',
       products: [{
-        id: 'spec-agent',
+        productId: 'spec-agent',
         name: { zh: 'Spec Agent', en: 'Spec Agent' },
         entryType: 'web',
         webUrl: 'https://example.com/spec',
       }, {
-        id: 'smartaccess',
+        productId: 'smartaccess',
         name: { zh: 'SmartAccess', en: 'SmartAccess' },
         entryType: 'download',
       }],
@@ -189,7 +189,6 @@ describe('Release Portal 路由', () => {
       product: 'spec-agent',
       from: '2026-08-01',
       types: 'feature',
-      view: 'panorama',
     })
     expect(router.currentRoute.value.hash).toBe('#evolution')
     expect(wrapper.findAll('[data-timeline-release]')).toHaveLength(1)

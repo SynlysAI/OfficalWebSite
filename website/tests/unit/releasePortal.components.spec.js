@@ -16,12 +16,12 @@ import MarkdownRenderer from '../../src/components/MarkdownRenderer.vue'
  * @returns {Array<object>} 产品列表。
  */
 const createProducts = () => [
-  { id: 'ai4ms', name: { zh: 'AI4MS', en: 'AI4MS' }, category: { zh: '平台', en: 'Platform' }, description: { zh: '统一入口', en: 'Unified entry' }, entryType: 'web', webUrl: 'https://example.com/ai4ms' },
-  { id: 'spec-agent', name: { zh: 'Spec Agent', en: 'Spec Agent' }, category: { zh: '分析', en: 'Analysis' }, description: { zh: '谱图智能', en: 'Spectral intelligence' }, entryType: 'web', webUrl: 'https://example.com/spec' },
-  { id: 'poly-agent', name: { zh: 'Poly Agent', en: 'Poly Agent' }, category: { zh: '材料', en: 'Materials' }, description: { zh: '材料研发', en: 'Materials R&D' }, entryType: 'web', webUrl: 'https://example.com/poly' },
-  { id: 'speclabos', name: { zh: 'SpecLabOS', en: 'SpecLabOS' }, category: { zh: '实验', en: 'Lab' }, description: { zh: '实验系统', en: 'Lab systems' }, entryType: 'web', webUrl: 'https://example.com/lab' },
-  { id: 'smartaccess', name: { zh: 'SmartAccess', en: 'SmartAccess' }, category: { zh: '接入', en: 'Access' }, description: { zh: '设备接入', en: 'Device access' }, entryType: 'download', webUrl: null },
-  { id: 'rag-portal', name: { zh: 'RAG Portal', en: 'RAG Portal' }, category: { zh: '知识', en: 'Knowledge' }, description: { zh: '知识检索', en: 'Knowledge retrieval' }, entryType: 'web', webUrl: 'https://example.com/rag' },
+  { productId: 'ai4ms', name: { zh: 'AI4MS', en: 'AI4MS' }, category: { zh: '平台', en: 'Platform' }, description: { zh: '统一入口', en: 'Unified entry' }, entryType: 'web', webUrl: 'https://example.com/ai4ms' },
+  { productId: 'spec-agent', name: { zh: 'Spec Agent', en: 'Spec Agent' }, category: { zh: '分析', en: 'Analysis' }, description: { zh: '谱图智能', en: 'Spectral intelligence' }, entryType: 'web', webUrl: 'https://example.com/spec' },
+  { productId: 'poly-agent', name: { zh: 'Poly Agent', en: 'Poly Agent' }, category: { zh: '材料', en: 'Materials' }, description: { zh: '材料研发', en: 'Materials R&D' }, entryType: 'web', webUrl: 'https://example.com/poly' },
+  { productId: 'speclabos', name: { zh: 'SpecLabOS', en: 'SpecLabOS' }, category: { zh: '实验', en: 'Lab' }, description: { zh: '实验系统', en: 'Lab systems' }, entryType: 'web', webUrl: 'https://example.com/lab' },
+  { productId: 'smartaccess', name: { zh: 'SmartAccess', en: 'SmartAccess' }, category: { zh: '接入', en: 'Access' }, description: { zh: '设备接入', en: 'Device access' }, entryType: 'download', webUrl: null },
+  { productId: 'ragportal', name: { zh: 'RAG Portal', en: 'RAG Portal' }, category: { zh: '知识', en: 'Knowledge' }, description: { zh: '知识检索', en: 'Knowledge retrieval' }, entryType: 'web', webUrl: 'https://example.com/rag' },
 ]
 
 const releases = [
@@ -81,7 +81,7 @@ describe('ReleaseProductGrid', () => {
       'poly-agent',
       'speclabos',
       'smartaccess',
-      'rag-portal',
+      'ragportal',
     ])
     expect(cards[1].text()).toContain('v1.0.0')
     expect(cards[0].get('a').attributes('href')).toBe('https://example.com/ai4ms')
@@ -110,7 +110,7 @@ describe('ReleaseProductGrid', () => {
     })
 
     expect(wrapper.get('[data-product-card="ai4ms"]').text()).toContain('暂无公开版本')
-    expect(wrapper.get('[data-product-card="rag-portal"] [data-entry-error]').text()).toContain('入口待确认')
+    expect(wrapper.get('[data-product-card="ragportal"] [data-entry-error]').text()).toContain('入口待确认')
     expect(warn).toHaveBeenCalledWith(expect.stringContaining('desktop'))
   })
 })

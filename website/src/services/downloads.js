@@ -47,13 +47,13 @@ export const prepareDownloadGroups = (products = [], releases = [], filters = {}
 
   return products
     .filter((product) => product && typeof product === 'object')
-    .filter((product) => !productId || product.id === productId)
+    .filter((product) => !productId || product.productId === productId)
     .map((product) => {
       const productReleases = releases
         .filter((release) => (
           release
           && typeof release === 'object'
-          && release.productId === product.id
+          && release.productId === product.productId
           && Array.isArray(release.assets)
           && release.assets.length > 0
         ))

@@ -44,7 +44,7 @@ const groups = computed(() => prepareDownloadGroups(props.products, props.releas
  * @returns {string} 当前语言产品名。
  */
 const productName = (product) => (
-  product?.name?.[props.language] || product?.name?.zh || product?.id || ''
+  product?.name?.[props.language] || product?.name?.zh || product?.productId || ''
 )
 
 /** 判断版本是否来自手工发布源。
@@ -85,9 +85,9 @@ const isManualRelease = (release) => (
     <div v-if="groups.length" class="release-downloads__groups">
       <section
         v-for="group in groups"
-        :key="group.product.id"
+        :key="group.product.productId"
         class="release-download-group"
-        :data-download-product="group.product.id"
+        :data-download-product="group.product.productId"
       >
         <h3>{{ productName(group.product) }}</h3>
         <details

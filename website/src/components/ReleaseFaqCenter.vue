@@ -90,7 +90,7 @@ const filteredFaqs = computed(() => {
  * @returns {string} 产品名称。
  */
 const productName = (product) => (
-  product?.name?.[props.language] || product?.name?.zh || product?.id || ''
+  product?.name?.[props.language] || product?.name?.zh || product?.productId || ''
 )
 
 /** 提交单条 FAQ 反馈并保留可恢复失败状态。
@@ -142,7 +142,7 @@ const openTimeline = (event, timelineId) => {
         <span>{{ copy.faq.product }}</span>
         <select v-model="productId" data-faq-product>
           <option value="">{{ copy.faq.allProducts }}</option>
-          <option v-for="product in products" :key="product.id" :value="product.id">
+          <option v-for="product in products" :key="product.productId" :value="product.productId">
             {{ productName(product) }}
           </option>
         </select>

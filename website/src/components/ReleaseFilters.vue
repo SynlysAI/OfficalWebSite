@@ -32,7 +32,7 @@ const copy = computed(() => releasePortalCopy[props.language] || releasePortalCo
  * @returns {string} 当前语言的产品名。
  */
 const productName = (product) => (
-  product?.name?.[props.language] || product?.name?.zh || product?.id || ''
+  product?.name?.[props.language] || product?.name?.zh || product?.productId || ''
 )
 
 /** 合并并输出下一组筛选条件。
@@ -87,7 +87,7 @@ const toggleChangeType = (changeType, checked) => {
           @change="updateFilters({ productId: $event.target.value })"
         >
           <option value="">{{ copy.filters.allProducts }}</option>
-          <option v-for="product in products" :key="product.id" :value="product.id">
+          <option v-for="product in products" :key="product.productId" :value="product.productId">
             {{ productName(product) }}
           </option>
         </select>

@@ -39,6 +39,26 @@ const localized = (value, language) => {
   return typeof value[language] === 'string' ? value[language] : ''
 }
 
+/** 产品分类英文 key 对应的双语标签。 */
+const categoryLabels = {
+  'materials-informatics': { zh: '材料信息学', en: 'Materials Informatics' },
+  spectroscopy: { zh: '光谱分析', en: 'Spectroscopy' },
+  'polymer-science': { zh: '聚合物科学', en: 'Polymer Science' },
+  'laboratory-platform': { zh: '实验室平台', en: 'Laboratory Platform' },
+  'knowledge-retrieval': { zh: '知识检索', en: 'Knowledge Retrieval' },
+  'developer-tools': { zh: '开发者工具', en: 'Developer Tools' },
+}
+
+/** 解析产品分类标签，未知分类回退为原始值。
+ *
+ * @param {unknown} category manifest 分类字段。
+ * @param {string} language 当前语言。
+ * @returns {string} 分类标签。
+ */
+const resolveCategory = (category, language) => (
+  categoryLabels[category]?.[language] || localized(category, language)
+)
+
 /** 解析产品 logo，仅信任绝对路径与 http(s) URL，其他一律回退到品牌 logo。
  *
  * @param {unknown} logo manifest 中的 logo 字段。
@@ -95,22 +115,24 @@ const copy = computed(() => (props.language === 'en'
 const normalizedProducts = computed(() => props.products.map((product) => {
   const entryType = product?.entryType
   const knownEntry = entryType === 'web' || entryType === 'download'
+  const productId = product?.productId || product?.id
 
   if (!knownEntry) {
     console.warn(`[ReleaseProductGrid] 未知 entryType: ${String(entryType)}`)
   }
 
-  const latestRelease = getLatestStableRelease(props.releases, product?.id)
+  const latestRelease = getLatestStableRelease(props.releases, productId)
 
   return {
     ...product,
+    id: productId,
     entryType,
     knownEntry,
     latestRelease,
     name: localized(product?.name, props.language),
     alternateName: localized(product?.name, props.language === 'en' ? 'zh' : 'en'),
-    category: localized(product?.category, props.language),
-    description: localized(product?.description, props.language),
+    category: resolveCategory(product?.category, props.language),
+    description: localized(product?.tagline ?? product?.description, props.language),
     updatedAt: formatDate(latestRelease?.publishedAt, props.language),
   }
 }))
