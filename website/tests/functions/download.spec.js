@@ -4,6 +4,13 @@ import { onRequestGet } from '../../functions/api/download/[[path]]'
 
 const MANIFEST_KEY = 'portal/v1/manifest.json'
 const ASSET_PATH = 'smartaccess/v1.2.3/SmartAccess 安装包.exe'
+const COLLECTION_FILE_MAP = {
+  products: 'portal/v1/products.json',
+  releases: 'portal/v1/releases.json',
+  timeline: 'portal/v1/timeline.json',
+  faqs: 'portal/v1/faqs.json',
+  meta: 'portal/v1/meta.json',
+}
 
 /** 创建包含一个下载资源的 Release manifest。
  *
@@ -40,21 +47,33 @@ const createManifest = (assetOverrides = {}) => ({
 const createBucket = ({
   manifest = createManifest(),
   asset = { body: 'payload', size: 7 },
-} = {}) => ({
-  get: vi.fn(async (key) => {
-    if (key === MANIFEST_KEY) {
-      return {
-        text: vi.fn().mockResolvedValue(JSON.stringify(manifest)),
+} = {}) => {
+  const r2State = {
+    [MANIFEST_KEY]: {
+      schemaVersion: manifest.schemaVersion,
+      generatedAt: manifest.generatedAt,
+    },
+    [COLLECTION_FILE_MAP.meta]: manifest.meta,
+    [COLLECTION_FILE_MAP.products]: { schemaVersion: 1, products: manifest.products },
+    [COLLECTION_FILE_MAP.releases]: { schemaVersion: 1, releases: manifest.releases },
+    [COLLECTION_FILE_MAP.timeline]: { schemaVersion: 1, events: manifest.timeline },
+    [COLLECTION_FILE_MAP.faqs]: { schemaVersion: 1, faqs: manifest.faqs },
+  }
+  return {
+    get: vi.fn(async (key) => {
+      if (key === ASSET_PATH) {
+        return asset
       }
-    }
-
-    if (key === ASSET_PATH) {
-      return asset
-    }
-
-    return null
-  }),
-})
+      const value = r2State[key]
+      if (value === undefined) {
+        return null
+      }
+      return {
+        text: vi.fn().mockResolvedValue(JSON.stringify(value)),
+      }
+    }),
+  }
+}
 
 /** 创建下载接口请求上下文。
  *
@@ -96,7 +115,7 @@ describe('GET /api/download/[[path]]', () => {
     const response = await onRequestGet(createContext(rawPath, bucket))
 
     expect(response.status).toBe(404)
-    expect(bucket.get).toHaveBeenCalledTimes(1)
+    expect(bucket.get).toHaveBeenCalledTimes(6)
     expect(bucket.get).toHaveBeenCalledWith(MANIFEST_KEY)
   })
 
@@ -109,7 +128,7 @@ describe('GET /api/download/[[path]]', () => {
     ))
 
     expect(response.status).toBe(404)
-    expect(bucket.get).toHaveBeenNthCalledWith(2, ASSET_PATH)
+    expect(bucket.get).toHaveBeenNthCalledWith(7, ASSET_PATH)
   })
 
   it('从 manifest 受信路径读取资源并返回不可变下载响应头', async () => {
@@ -121,7 +140,7 @@ describe('GET /api/download/[[path]]', () => {
     ))
 
     expect(response.status).toBe(200)
-    expect(bucket.get).toHaveBeenNthCalledWith(2, ASSET_PATH)
+    expect(bucket.get).toHaveBeenNthCalledWith(7, ASSET_PATH)
     expect(response.headers.get('Content-Type')).toBe(
       'application/vnd.microsoft.portable-executable',
     )
