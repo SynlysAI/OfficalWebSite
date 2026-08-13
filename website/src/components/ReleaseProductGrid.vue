@@ -39,6 +39,18 @@ const localized = (value, language) => {
   return typeof value[language] === 'string' ? value[language] : ''
 }
 
+/** 解析产品 logo，仅信任绝对路径与 http(s) URL，其他一律回退到品牌 logo。
+ *
+ * @param {unknown} logo manifest 中的 logo 字段。
+ * @returns {string} 可直接用于 img src 的地址。
+ */
+const resolveLogo = (logo) => {
+  if (typeof logo === 'string' && /^(?:https?:\/\/|\/)/i.test(logo)) {
+    return logo
+  }
+  return brand.logo
+}
+
 /** 格式化发布日期。
  *
  * @param {string} value ISO 日期字符串。
@@ -133,7 +145,7 @@ const selectDownloadProduct = (productId) => {
           <div class="release-product-card__logo-wrap">
             <img
               class="release-product-card__logo"
-              :src="product.logo || brand.logo"
+              :src="resolveLogo(product.logo)"
               :alt="product.name || product.id"
             />
           </div>
