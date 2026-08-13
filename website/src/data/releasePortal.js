@@ -17,6 +17,8 @@ export const releasePortalCopy = {
     },
     changeTypes: {
       feature: '功能',
+      algorithm: '算法改进',
+      bugfix: '问题修复',
       fix: '修复',
       performance: '性能',
       docs: '文档',
@@ -86,6 +88,8 @@ export const releasePortalCopy = {
     },
     changeTypes: {
       feature: 'Feature',
+      algorithm: 'Algorithm',
+      bugfix: 'Bug fix',
       fix: 'Fix',
       performance: 'Performance',
       docs: 'Docs',
