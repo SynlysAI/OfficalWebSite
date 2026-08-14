@@ -199,7 +199,7 @@ export const getLatestStableRelease = (releases = [], productId) => (
       && typeof release.publishedAt === 'string'
       && !Number.isNaN(Date.parse(release.publishedAt))
       && release.productId === productId
-      && release.channel === 'stable'
+      && !release.prerelease && !release.draft
     ))
     .sort((left, right) => (
       Number(Boolean(right.isLatestStable)) - Number(Boolean(left.isLatestStable))

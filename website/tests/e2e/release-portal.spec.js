@@ -24,7 +24,7 @@ const manifest = {
     id: 'smartaccess-v2',
     productId: 'smartaccess',
     tagName: 'v2.0.0',
-    channel: 'stable',
+    prerelease: false, draft: false,
     isLatestStable: true,
     publishedAt: '2026-08-11T00:00:00.000Z',
     assets: [{

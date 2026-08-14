@@ -283,10 +283,10 @@ describe('filterTimeline', () => {
 describe('getLatestStableRelease', () => {
   it('返回指定产品最新的稳定版本并忽略预发布版本', () => {
     const releases = [
-      { id: 'stable-old', productId: 'ai4ms', channel: 'stable', publishedAt: '2026-05-01' },
-      { id: 'preview-new', productId: 'ai4ms', channel: 'preview', publishedAt: '2026-08-01' },
-      { id: 'stable-new', productId: 'ai4ms', channel: 'stable', publishedAt: '2026-07-01' },
-      { id: 'other', productId: 'spec-agent', channel: 'stable', publishedAt: '2026-08-10' },
+      { id: 'stable-old', productId: 'ai4ms', prerelease: false, draft: false, publishedAt: '2026-05-01' },
+      { id: 'preview-new', productId: 'ai4ms', prerelease: true, draft: false, publishedAt: '2026-08-01' },
+      { id: 'stable-new', productId: 'ai4ms', prerelease: false, draft: false, publishedAt: '2026-07-01' },
+      { id: 'other', productId: 'spec-agent', prerelease: false, draft: false, publishedAt: '2026-08-10' },
     ]
 
     expect(getLatestStableRelease(releases, 'ai4ms')?.id).toBe('stable-new')
@@ -297,7 +297,7 @@ describe('getLatestStableRelease', () => {
     const validRelease = {
       id: 'stable',
       productId: 'ai4ms',
-      channel: 'stable',
+      prerelease: false, draft: false,
       publishedAt: '2026-07-01T00:00:00.000Z',
     }
 

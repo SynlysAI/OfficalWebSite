@@ -25,12 +25,12 @@ export const formatFileSize = (value, language = 'zh') => {
   }).format(amount)} ${units[unitIndex]}`
 }
 
-/** 判断发布记录是否为预发布版本。
+/** 判断发布记录是否为预发布或草稿版本。
  *
  * @param {object} release 发布记录。
- * @returns {boolean} 是否为非稳定渠道。
+ * @returns {boolean} 是否为预发布或草稿。
  */
-export const isPrerelease = (release) => release?.channel !== 'stable'
+export const isPrerelease = (release) => release?.prerelease === true || release?.draft === true
 
 /** 按产品整理下载版本并生成安全同域 URL。
  *
