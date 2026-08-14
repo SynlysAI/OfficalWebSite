@@ -214,6 +214,7 @@ const toggleRelease = (eventId) => {
             open
           >
             <summary>
+              <span>{{ child.productId }}</span>
               <span>{{ changeTypeLabel(child.changeType) }}</span>
               <span>{{ levelLabel(child.level) }}</span>
               <strong>{{ localized(child.title) }}</strong>
@@ -238,6 +239,7 @@ const toggleRelease = (eventId) => {
         open
       >
         <summary>
+          <span>{{ event.productId }}</span>
           <span>{{ changeTypeLabel(event.changeType) }}</span>
           <span>{{ levelLabel(event.level) }}</span>
           <strong>{{ localized(event.title) }}</strong>

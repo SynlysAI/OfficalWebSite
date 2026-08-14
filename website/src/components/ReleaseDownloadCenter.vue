@@ -32,11 +32,18 @@ const platform = ref('')
 const architecture = ref('')
 const copy = computed(() => releasePortalCopy[props.language] || releasePortalCopy.zh)
 const options = computed(() => collectDownloadOptions(props.releases))
-const groups = computed(() => prepareDownloadGroups(props.products, props.releases, {
-  productId: props.productId,
-  platform: platform.value,
-  arch: architecture.value,
-}))
+const groups = computed(() => {
+  const filters = { platform: platform.value, arch: architecture.value }
+  const selected = prepareDownloadGroups(props.products, props.releases, {
+    ...filters,
+    productId: props.productId,
+  })
+  // 选中产品没有可下载资源时回退展示全部产品，避免出现空列表。
+  if (selected.length || !props.productId) {
+    return selected
+  }
+  return prepareDownloadGroups(props.products, props.releases, filters)
+})
 
 /** 读取产品的本地化名称。
  *
