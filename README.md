@@ -72,7 +72,7 @@ website/
 ```bash
 cd website
 npm run build
-npx wrangler pages deploy dist --project-name synlysai-official-site
+npx wrangler pages deploy dist --project-name officalwebsite
 ```
 
 Cloudflare 绑定配置位于 `website/wrangler.toml`。部署前请将 D1 配置中的 `database_id` 占位值替换为实际数据库 ID，并准备好 R2 和 D1 资源。
