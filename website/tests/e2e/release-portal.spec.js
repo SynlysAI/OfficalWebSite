@@ -23,14 +23,14 @@ const manifest = {
   releases: [{
     id: 'smartaccess-v2',
     productId: 'smartaccess',
-    tagName: 'v2.0.0',
+    version: 'v2.0.0',
     prerelease: false, draft: false,
     isLatestStable: true,
     publishedAt: '2026-08-11T00:00:00.000Z',
     assets: [{
       name: 'SmartAccess.exe',
       platform: 'windows',
-      arch: 'x64',
+      architecture: 'x64',
       size: 1024,
       sha256: 'abc123',
       downloadPath: 'smartaccess/v2.0.0/SmartAccess.exe',

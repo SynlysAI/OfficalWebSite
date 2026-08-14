@@ -216,7 +216,10 @@ export const getLatestStableRelease = (releases = [], productId) => (
  * @throws {TypeError} 路径为空、为绝对地址或包含路径穿越时抛出。
  */
 export const formatDownloadUrl = (asset) => {
-  const downloadPath = asset?.downloadPath
+  const rawPath = asset?.downloadPath
+  const downloadPath = typeof rawPath === 'string' && rawPath.startsWith('assets/')
+    ? rawPath.slice('assets/'.length)
+    : rawPath
 
   if (
     typeof downloadPath !== 'string'

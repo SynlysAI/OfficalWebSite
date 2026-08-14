@@ -74,6 +74,22 @@ const parseDownloadPath = (request, params) => {
  * @param {object} requestedPath 已解析的下载路径。
  * @returns {object|null} 匹配的资源。
  */
+const RELEASE_ASSET_PREFIX = 'assets/'
+
+/** 规整 downloadPath，去掉 R2 对象的 assets/ 前缀以得到逻辑下载路径。
+
+ * @param {unknown} downloadPath manifest 中的原始下载路径。
+ * @returns {string} 逻辑下载路径，无效输入返回空字符串。
+ */
+const normalizeDownloadPath = (downloadPath) => {
+  if (typeof downloadPath !== 'string') {
+    return ''
+  }
+  return downloadPath.startsWith(RELEASE_ASSET_PREFIX)
+    ? downloadPath.slice(RELEASE_ASSET_PREFIX.length)
+    : downloadPath
+}
+
 const findAsset = (manifest, requestedPath) => {
   if (!Array.isArray(manifest.releases)) {
     return null
@@ -81,7 +97,7 @@ const findAsset = (manifest, requestedPath) => {
 
   const release = manifest.releases.find((candidate) => (
     candidate?.productId === requestedPath.productId
-    && candidate?.tagName === requestedPath.version
+    && candidate?.version === requestedPath.version
   ))
 
   if (!Array.isArray(release?.assets)) {
@@ -89,7 +105,7 @@ const findAsset = (manifest, requestedPath) => {
   }
 
   return release.assets.find((asset) => (
-    asset?.downloadPath === requestedPath.path
+    normalizeDownloadPath(asset?.downloadPath) === requestedPath.path
   )) || null
 }
 

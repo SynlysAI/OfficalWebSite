@@ -62,7 +62,7 @@ export const prepareDownloadGroups = (products = [], releases = [], filters = {}
           assets: release.assets
             .filter((asset) => asset && typeof asset === 'object')
             .filter((asset) => !platform || asset.platform === platform)
-            .filter((asset) => !arch || asset.arch === arch)
+            .filter((asset) => !arch || asset.architecture === arch)
             .map((asset) => {
               try {
                 return { ...asset, downloadUrl: formatDownloadUrl(asset), downloadError: false }
@@ -98,6 +98,6 @@ export const collectDownloadOptions = (releases = []) => {
 
   return {
     platforms: collect('platform'),
-    architectures: collect('arch'),
+    architectures: collect('architecture'),
   }
 }

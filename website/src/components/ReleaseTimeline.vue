@@ -116,7 +116,7 @@ const groups = computed(() => releaseEvents.value.map((event) => ({
   event,
   release: props.releases.find((release) => (
     release?.productId === event.productId
-    && release?.tagName === event.version
+    && release?.version === event.version
   )) || null,
   children: props.view === 'panorama'
     ? visibleEvents.value.filter((child) => (

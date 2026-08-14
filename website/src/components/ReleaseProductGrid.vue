@@ -187,7 +187,7 @@ const selectDownloadProduct = (productId) => {
         <div class="release-product-card__release">
           <template v-if="product.latestRelease">
             <span class="release-product-card__version">
-              <strong>{{ product.latestRelease.tagName }}</strong>
+              <strong>{{ product.latestRelease.version }}</strong>
               <span v-if="product.latestRelease.isLatestStable" class="release-product-card__latest">{{ copy.latest }}</span>
             </span>
             <span v-if="product.updatedAt" class="release-product-card__date">{{ copy.updated }} {{ product.updatedAt }}</span>

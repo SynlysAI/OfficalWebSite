@@ -92,13 +92,13 @@ const isManualRelease = (release) => (
         <h3>{{ productName(group.product) }}</h3>
         <details
           v-for="release in group.releases"
-          :key="release.id || release.tagName"
+          :key="release.id || release.version"
           class="release-download-version"
-          :data-download-release="release.tagName"
+          :data-download-release="release.version"
           :open="Boolean(release.isLatestStable)"
         >
           <summary>
-            <strong>{{ release.tagName }}</strong>
+            <strong>{{ release.version }}</strong>
             <span v-if="release.isLatestStable" class="release-download-version__latest">
               {{ copy.downloads.latest }}
             </span>
@@ -121,7 +121,7 @@ const isManualRelease = (release) => (
                 <strong>{{ asset.name }}</strong>
                 <div class="release-download-asset__meta">
                   <span v-if="asset.platform">{{ asset.platform }}</span>
-                  <span v-if="asset.arch">{{ asset.arch }}</span>
+                  <span v-if="asset.architecture">{{ asset.architecture }}</span>
                   <span v-if="formatFileSize(asset.size, language)">
                     {{ formatFileSize(asset.size, language) }}
                   </span>

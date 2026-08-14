@@ -23,7 +23,7 @@ const createManifest = (assetOverrides = {}) => ({
   products: [{ id: 'smartaccess' }],
   releases: [{
     productId: 'smartaccess',
-    tagName: 'v1.2.3',
+    version: 'v1.2.3',
     assets: [{
       name: 'SmartAccess 安装包.exe',
       downloadPath: ASSET_PATH,

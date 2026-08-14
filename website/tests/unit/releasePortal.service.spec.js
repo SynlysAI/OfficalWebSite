@@ -327,6 +327,12 @@ describe('formatDownloadUrl', () => {
     })).toBe('/api/download/smartaccess/v1.0.0/SmartAccess%20setup.exe')
   })
 
+  it('去掉 R2 对象的 assets/ 前缀生成逻辑下载地址', () => {
+    expect(formatDownloadUrl({
+      downloadPath: 'assets/smartaccess/v1.0.0/SmartAccess setup.exe',
+    })).toBe('/api/download/smartaccess/v1.0.0/SmartAccess%20setup.exe')
+  })
+
   it.each([
     'https://example.com/file.zip',
     '//example.com/file.zip',

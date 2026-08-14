@@ -28,7 +28,7 @@ const releases = [
   {
     id: 'spec-agent-v1.0.0',
     productId: 'spec-agent',
-    tagName: 'v1.0.0',
+    version: 'v1.0.0',
     prerelease: false, draft: false,
     isLatestStable: true,
     publishedAt: '2026-08-10T00:00:00.000Z',
@@ -230,7 +230,7 @@ describe('ReleaseDownloadCenter', () => {
     {
       id: 'smartaccess-v2',
       productId: 'smartaccess',
-      tagName: 'v2.0.0',
+      version: 'v2.0.0',
       prerelease: false, draft: false,
       isLatestStable: true,
       publishedAt: '2026-08-11T00:00:00.000Z',
@@ -239,7 +239,7 @@ describe('ReleaseDownloadCenter', () => {
         {
           name: 'SmartAccess 2.0.exe',
           platform: 'windows',
-          arch: 'x64',
+          architecture: 'x64',
           size: 1048576,
           sha256: 'abc123',
           downloadPath: 'smartaccess/v2.0.0/SmartAccess 2.0.exe',
@@ -247,7 +247,7 @@ describe('ReleaseDownloadCenter', () => {
         {
           name: 'SmartAccess 2.0-arm64.dmg',
           platform: 'macos',
-          arch: 'arm64',
+          architecture: 'arm64',
           size: 2048,
           downloadPath: 'smartaccess/v2.0.0/SmartAccess 2.0-arm64.dmg',
         },
@@ -256,14 +256,14 @@ describe('ReleaseDownloadCenter', () => {
     {
       id: 'smartaccess-v3-beta',
       productId: 'smartaccess',
-      tagName: 'v3.0.0-beta.1',
+      version: 'v3.0.0-beta.1',
       prerelease: true, draft: false,
       isLatestStable: false,
       publishedAt: '2026-08-12T00:00:00.000Z',
       assets: [{
         name: 'SmartAccess beta.exe',
         platform: 'windows',
-        arch: 'x64',
+        architecture: 'x64',
         size: 512,
         sha256: 'beta123',
         downloadPath: 'smartaccess/v3.0.0-beta.1/SmartAccess beta.exe',
@@ -333,7 +333,7 @@ describe('ReleaseDownloadCenter', () => {
         products: createProducts(),
         releases: [{
           ...downloadReleases[0],
-          assets: [{ name: 'invalid.zip', platform: 'windows', arch: 'x64' }],
+          assets: [{ name: 'invalid.zip', platform: 'windows', architecture: 'x64' }],
         }],
         language: 'zh',
       },
