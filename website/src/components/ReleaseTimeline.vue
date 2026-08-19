@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 
 import { releasePortalCopy } from '../data/releasePortal'
 import MarkdownRenderer from './MarkdownRenderer.vue'
@@ -32,6 +32,71 @@ const props = defineProps({
 })
 
 const expandedReleaseIds = ref(new Set())
+
+/** 记录各发布节点正文是否超长（需要折叠）以及是否已展开。
+ *
+ * @type {import('vue').Ref<Record<string, { expandable: boolean, expanded: boolean }>>}
+ */
+const bodyStates = ref({})
+
+/** 正文在折叠前允许显示的最大行数。
+ *
+ * @type {number}
+ */
+const CLAMP_LINES = 6
+
+/** 获取事件的双语详情正文。
+ *
+ * @param {object} event 时间线事件。
+ * @returns {string} 当前语言的 Markdown 正文。
+ */
+const detailsMarkdown = (event) => localized(event.detailsMarkdown)
+
+/** 测量并记录每个发布节点正文是否超出折叠阈值。
+ *
+ * @returns {Promise<void>} 测量完成的异步工作。
+ */
+const measureBodies = async () => {
+  await nextTick()
+  const next = { ...bodyStates.value }
+  const bodyEls = document.querySelectorAll('[data-release-body]')
+  bodyEls.forEach((el) => {
+    const eventId = el.getAttribute('data-release-body')
+    if (!eventId) {
+      return
+    }
+    const clampedHeight = parseFloat(getComputedStyle(el).lineHeight) * CLAMP_LINES
+    const expandable = el.scrollHeight > Math.ceil(clampedHeight + 1)
+    const current = next[eventId] || { expandable: false, expanded: false }
+    if (current.expandable !== expandable) {
+      next[eventId] = { expandable, expanded: current.expanded && expandable }
+    }
+  })
+  bodyStates.value = next
+}
+
+/** 在事件或语言变化后重新测量正文高度。
+ */
+watch(
+  () => [props.events, props.language],
+  () => { measureBodies() },
+  { flush: 'post', immediate: true, deep: true },
+)
+
+/** 切换单个发布节点正文的展开状态。
+ *
+ * @param {string} eventId Release 事件 ID。
+ */
+const toggleRelease = (eventId) => {
+  const state = bodyStates.value[eventId]
+  if (!state) {
+    return
+  }
+  bodyStates.value = {
+    ...bodyStates.value,
+    [eventId]: { ...state, expanded: !state.expanded },
+  }
+}
 const copy = computed(() => releasePortalCopy[props.language] || releasePortalCopy.zh)
 
 /** 读取双语字段。
@@ -134,20 +199,6 @@ const orphanEvents = computed(() => {
   const groupedIds = new Set(groups.value.flatMap((group) => group.children.map((event) => event.id)))
   return visibleEvents.value.filter((event) => event.level !== 'release' && !groupedIds.has(event.id))
 })
-
-/** 切换 Release Note 展开状态。
- *
- * @param {string} eventId Release 事件 ID。
- */
-const toggleRelease = (eventId) => {
-  const next = new Set(expandedReleaseIds.value)
-  if (next.has(eventId)) {
-    next.delete(eventId)
-  } else {
-    next.add(eventId)
-  }
-  expandedReleaseIds.value = next
-}
 </script>
 
 <template>
@@ -184,23 +235,27 @@ const toggleRelease = (eventId) => {
           </div>
           <p>{{ localized(group.event.summary) }}</p>
 
+          <div
+            v-if="detailsMarkdown(group.event)"
+            class="release-node__body"
+            :class="{ 'is-clamped': !bodyStates[group.event.id]?.expanded }"
+            :data-release-body="group.event.id"
+          >
+            <MarkdownRenderer :source="detailsMarkdown(group.event)" />
+          </div>
+
           <div class="release-node__actions">
             <a href="#downloads">{{ copy.timeline.downloads }}</a>
             <button
-              v-if="localized(group.event.detailsMarkdown)"
+              v-if="bodyStates[group.event.id]?.expandable"
               type="button"
-              data-release-details
-              :aria-expanded="expandedReleaseIds.has(group.event.id)"
+              data-release-toggle
+              :aria-expanded="Boolean(bodyStates[group.event.id]?.expanded)"
               @click="toggleRelease(group.event.id)"
             >
-              {{ copy.timeline.details }}
+              {{ bodyStates[group.event.id]?.expanded ? copy.timeline.collapse : copy.timeline.expand }}
             </button>
           </div>
-
-          <MarkdownRenderer
-            v-if="expandedReleaseIds.has(group.event.id)"
-            :source="localized(group.event.detailsMarkdown)"
-          />
         </div>
 
         <div v-if="group.children.length" class="release-timeline__children">

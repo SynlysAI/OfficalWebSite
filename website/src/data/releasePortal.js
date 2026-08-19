@@ -31,6 +31,8 @@ export const releasePortalCopy = {
       empty: '暂无匹配的技术演进',
       latest: '最新稳定版',
       details: '查看版本说明',
+      expand: '展开全部',
+      collapse: '收起',
       downloads: '查看下载',
     },
     downloads: {
@@ -102,6 +104,8 @@ export const releasePortalCopy = {
       empty: 'No matching technical evolution',
       latest: 'Latest stable',
       details: 'View release notes',
+      expand: 'Expand',
+      collapse: 'Collapse',
       downloads: 'View downloads',
     },
     downloads: {

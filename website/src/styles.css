@@ -1735,6 +1735,25 @@ a:focus-visible {
   line-height: 1.7;
 }
 
+.release-node__body {
+  margin-top: 13px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 6;
+  overflow: hidden;
+  color: var(--text-soft);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.release-node__body.is-clamped {
+  -webkit-line-clamp: 6;
+}
+
+.release-node__body:not(.is-clamped) {
+  -webkit-line-clamp: unset;
+}
+
 .release-node__latest {
   flex: 0 0 auto;
   min-height: 26px;
