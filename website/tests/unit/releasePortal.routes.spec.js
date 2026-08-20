@@ -191,7 +191,8 @@ describe('Release Portal 路由', () => {
       types: 'feature',
     })
     expect(router.currentRoute.value.hash).toBe('#evolution')
-    expect(wrapper.findAll('[data-timeline-release]')).toHaveLength(1)
+    // 技术演进视图不展示 release 发布节点，仅平铺提交/聚合信息
+    expect(wrapper.findAll('[data-timeline-release]')).toHaveLength(0)
     expect(wrapper.findAll('[data-timeline-child]')).toHaveLength(1)
 
     await wrapper.get('[data-portal-tab="overview"]').trigger('click')

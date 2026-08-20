@@ -203,17 +203,17 @@ describe('ReleaseTimeline', () => {
     expect(wrapper.text()).toContain('最新稳定版')
   })
 
-  it('全景视图归组子节点并展开安全详情', async () => {
+  it('全景视图归组子节点并直接渲染发布正文', () => {
     const wrapper = mount(ReleaseTimeline, {
       props: { events: timelineEvents, releases, language: 'zh', view: 'panorama' },
     })
 
+    expect(wrapper.get('[data-timeline-release="release-v1"]').exists()).toBe(true)
     expect(wrapper.get('[data-timeline-child]').text()).toContain('1234567')
-    expect(wrapper.get('[data-release-details]').text()).toBe('查看版本说明')
-    await wrapper.get('[data-release-details]').trigger('click')
-
-    expect(wrapper.text()).toContain('发布说明')
-    expect(wrapper.get('[data-release-details]').attributes('aria-expanded')).toBe('true')
+    // 发布正文直接渲染，无需点击单独按钮展开
+    expect(wrapper.get('[data-release-body]').text()).toContain('发布说明')
+    // 短正文不会触发折叠按钮
+    expect(wrapper.find('[data-release-toggle]').exists()).toBe(false)
   })
 
   it('没有匹配事件时显示明确空状态', () => {

@@ -61,40 +61,15 @@ const changeTypes = computed(() => Array.from(new Set(
     .map((event) => event?.changeType)
     .filter((value) => typeof value === 'string' && value),
 )).sort())
-
-/** 生成用于关联 Release 与子节点的稳定键。
- *
- * @param {object} event 时间线事件。
- * @returns {string} 产品与版本组合键。
- */
-const eventGroupKey = (event) => (
-  typeof event?.productId === 'string' && typeof event?.version === 'string'
-    ? `${event.productId}\u0000${event.version}`
-    : ''
-)
-
 const filteredTimeline = computed(() => {
   const filtered = filterTimeline(manifest.value.timeline, filters.value)
   if (filters.value.view !== 'panorama') {
     return filtered
   }
 
-  const childGroupKeys = new Set(
-    filtered
-      .filter((event) => event.level !== 'release')
-      .map(eventGroupKey)
-      .filter(Boolean),
-  )
-  const selectedIds = new Set(filtered.map((event) => event.id))
-  const contextualParents = manifest.value.timeline.filter((event) => (
-    event?.level === 'release'
-    && !selectedIds.has(event.id)
-    && childGroupKeys.has(eventGroupKey(event))
-    && typeof event.occurredAt === 'string'
-    && !Number.isNaN(Date.parse(event.occurredAt))
-  ))
-
-  return [...filtered, ...contextualParents].sort((left, right) => (
+  // 技术演进视图只展示提交与聚合信息，去除 release 发布节点，
+  // 避免与“版本发布记录”标签页重复。剩余事件由 ReleaseTimeline 平铺展示。
+  return filtered.filter((event) => event.level !== 'release').sort((left, right) => (
     Date.parse(right.occurredAt) - Date.parse(left.occurredAt)
   ))
 })
@@ -123,7 +98,7 @@ const selectProduct = async (productId) => {
   })
 }
 
-/** 打开技术演进并定位到指定事件。
+/** 打开技术演进并定位到指定事件；release 发布节点跳转到版本发布记录标签页。
  *
  * @param {string} timelineId 时间线事件 ID。
  * @returns {Promise<void>} 路由和滚动更新完成。
@@ -142,13 +117,20 @@ const selectTimeline = async (timelineId) => {
   if (targetEvent?.productId) {
     query.product = targetEvent.productId
   }
-  if (targetEvent && targetEvent.level !== 'release') {
+
+  // 技术演进视图不再展示 release 发布节点；release 发布节点统一在
+  // “版本发布记录”标签页展示，深链跳转到该标签页定位。
+  const isReleaseTarget = targetEvent?.level === 'release'
+  const targetTab = isReleaseTarget ? 'releases' : 'evolution'
+  if (isReleaseTarget) {
+    delete query.view
+  } else {
     query.view = 'panorama'
   }
 
   await router.replace({
     query,
-    hash: '#evolution',
+    hash: `#${targetTab}`,
   })
   await nextTick()
   window.requestAnimationFrame(() => {

@@ -151,9 +151,9 @@ test('Release Portal 核心流程在四个视口保持可用', async ({ page }, 
   await page.locator('[data-faq-unhelpful]').click()
   await expect(page.locator('[data-faq-feedback-error]')).toBeVisible()
   await page.locator('[data-faq-timeline-link]').click()
-  await expect(page.locator('[role="tabpanel"]')).toHaveAttribute('data-portal-panel', 'evolution')
-  await expect(page).toHaveURL(/product=smartaccess.*timeline=release-v2.*#evolution$/)
-  await expect(page.locator('#timeline-release-v2')).toHaveClass(/is-targeted/)
+  await expect(page.locator('[role="tabpanel"]')).toHaveAttribute('data-portal-panel', 'releases')
+  await expect(page).toHaveURL(/product=smartaccess.*timeline=release-v2.*#releases$/)
+  await expect(page.locator('#timeline-release-v2')).toBeVisible()
 
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)
   expect(overflow).toBe(false)
