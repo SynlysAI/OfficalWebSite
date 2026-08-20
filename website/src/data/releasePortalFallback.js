@@ -28,7 +28,6 @@ const fallbackProducts = [
     name: { zh: 'SmartAccess', en: 'SmartAccess' },
     entryType: 'download',
     webUrl: null,
-    logo: '/icons/smartaccess.png',
   },
   {
     productId: 'ragportal',
