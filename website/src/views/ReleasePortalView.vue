@@ -254,6 +254,7 @@ onMounted(loadManifest)
             <ReleaseTimeline
               :events="filteredTimeline"
               :releases="manifest.releases"
+              :products="manifest.products"
               :language="language"
               :target-id="selectedTimelineId"
               :view="viewMode"
@@ -264,6 +265,7 @@ onMounted(loadManifest)
             v-else-if="activeTab === 'releases'"
             :events="manifest.timeline"
             :releases="manifest.releases"
+            :products="manifest.products"
             :language="language"
             :title="portalCopy.timeline.releaseTitle"
             view="release"

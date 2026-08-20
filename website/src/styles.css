@@ -1702,6 +1702,14 @@ a:focus-visible {
   font-size: 12px;
 }
 
+.release-node__product,
+.release-child-node__product {
+  color: var(--text);
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.01em;
+}
+
 .release-node__title-row {
   align-items: flex-start;
   justify-content: space-between;

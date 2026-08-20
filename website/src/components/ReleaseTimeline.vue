@@ -13,6 +13,10 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  products: {
+    type: Array,
+    default: () => [],
+  },
   language: {
     type: String,
     default: 'zh',
@@ -109,6 +113,19 @@ const localized = (value) => {
     return value
   }
   return value?.[props.language] || value?.zh || ''
+}
+
+/** 获取事件所属产品的英文展示名（优先中文界面下的英文主名）。
+ *
+ * @param {object} event 时间线事件。
+ * @returns {string} 英文产品名，找不到时回退为 productId。
+ */
+const productEnglishName = (event) => {
+  const product = props.products.find((item) => (
+    item?.productId === event?.productId
+  ))
+  const name = product?.name?.en
+  return typeof name === 'string' && name ? name : event?.productId
 }
 
 /** 格式化事件日期。
@@ -223,8 +240,8 @@ const orphanEvents = computed(() => {
         <div class="release-timeline__rail" aria-hidden="true"></div>
         <div class="release-node">
           <div class="release-node__meta">
-            <span>{{ formatDate(group.event.occurredAt) }}</span>
-            <span>{{ group.event.productId }}</span>
+            <span class="release-node__product">{{ productEnglishName(group.event) }}</span>
+            <span class="release-node__time">{{ formatDate(group.event.occurredAt) }}</span>
           </div>
           <div class="release-node__title-row">
             <div>
@@ -245,7 +262,7 @@ const orphanEvents = computed(() => {
           </div>
 
           <div class="release-node__actions">
-            <a href="#downloads">{{ copy.timeline.downloads }}</a>
+            <a v-if="Array.isArray(group.release?.assets) && group.release.assets.length" href="#downloads">{{ copy.timeline.downloads }}</a>
             <button
               v-if="bodyStates[group.event.id]?.expandable"
               type="button"
@@ -269,7 +286,7 @@ const orphanEvents = computed(() => {
             open
           >
             <summary>
-              <span>{{ child.productId }}</span>
+              <span class="release-child-node__product">{{ productEnglishName(child) }}</span>
               <span>{{ formatDate(child.occurredAt) }}</span>
               <span>{{ changeTypeLabel(child.changeType) }}</span>
               <span>{{ levelLabel(child.level) }}</span>
@@ -295,7 +312,7 @@ const orphanEvents = computed(() => {
         open
       >
         <summary>
-          <span>{{ event.productId }}</span>
+          <span class="release-child-node__product">{{ productEnglishName(event) }}</span>
           <span>{{ formatDate(event.occurredAt) }}</span>
           <span>{{ changeTypeLabel(event.changeType) }}</span>
           <span>{{ levelLabel(event.level) }}</span>
