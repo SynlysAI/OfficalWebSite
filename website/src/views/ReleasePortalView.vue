@@ -5,14 +5,13 @@ import { useRoute, useRouter } from 'vue-router'
 import { useSiteContent } from '../composables/useSiteContent'
 import ReleaseFilters from '../components/ReleaseFilters.vue'
 import ReleaseDownloadCenter from '../components/ReleaseDownloadCenter.vue'
-import ReleaseFaqCenter from '../components/ReleaseFaqCenter.vue'
 import ReleaseProductGrid from '../components/ReleaseProductGrid.vue'
 import ReleaseTimeline from '../components/ReleaseTimeline.vue'
 import { releasePortalCopy } from '../data/releasePortal'
 import { releasePortalFallback } from '../data/releasePortalFallback'
 import { fetchReleaseManifest, filterTimeline } from '../services/releasePortal'
 
-const PORTAL_TAB_IDS = ['overview', 'evolution', 'releases', 'downloads', 'faq']
+const PORTAL_TAB_IDS = ['overview', 'evolution', 'releases', 'downloads']
 
 const route = useRoute()
 const router = useRouter()
@@ -95,49 +94,6 @@ const selectProduct = async (productId) => {
   await router.replace({
     query: { ...route.query, product: productId },
     hash: '#downloads',
-  })
-}
-
-/** 打开技术演进并定位到指定事件；release 发布节点跳转到版本发布记录标签页。
- *
- * @param {string} timelineId 时间线事件 ID。
- * @returns {Promise<void>} 路由和滚动更新完成。
- */
-const selectTimeline = async (timelineId) => {
-  if (!timelineId) {
-    return
-  }
-
-  const targetEvent = manifest.value.timeline.find((event) => event?.id === timelineId)
-  const query = { ...route.query, timeline: timelineId }
-  delete query.from
-  delete query.to
-  delete query.types
-
-  if (targetEvent?.productId) {
-    query.product = targetEvent.productId
-  }
-
-  // 技术演进视图不再展示 release 发布节点；release 发布节点统一在
-  // “版本发布记录”标签页展示，深链跳转到该标签页定位。
-  const isReleaseTarget = targetEvent?.level === 'release'
-  const targetTab = isReleaseTarget ? 'releases' : 'evolution'
-  if (isReleaseTarget) {
-    delete query.view
-  } else {
-    query.view = 'panorama'
-  }
-
-  await router.replace({
-    query,
-    hash: `#${targetTab}`,
-  })
-  await nextTick()
-  window.requestAnimationFrame(() => {
-    document.getElementById(`timeline-${timelineId}`)?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'center',
-    })
   })
 }
 
@@ -319,14 +275,6 @@ onMounted(loadManifest)
             :releases="manifest.releases"
             :language="language"
             :product-id="selectedProduct"
-          />
-
-          <ReleaseFaqCenter
-            v-else
-            :faqs="manifest.faqs"
-            :products="manifest.products"
-            :language="language"
-            @select-timeline="selectTimeline"
           />
         </div>
       </div>

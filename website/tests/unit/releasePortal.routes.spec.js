@@ -37,26 +37,26 @@ describe('Release Portal 路由', () => {
     expect(router.currentRoute.value.name).toBe('releases')
     expect(wrapper.attributes('data-product')).toBe('spec-agent')
     expect(wrapper.attributes('data-view')).toBe('panorama')
-    expect(wrapper.get('[role="tablist"]').findAll('[role="tab"]')).toHaveLength(5)
+    expect(wrapper.get('[role="tablist"]').findAll('[role="tab"]')).toHaveLength(4)
     expect(wrapper.get('h1').text()).toBe('产品发布中心')
     expect(wrapper.get('[role="tablist"]').text()).toContain('产品概览')
     expect(wrapper.get('[role="tablist"]').text()).toContain('技术演进')
     expect(wrapper.get('[role="tablist"]').text()).toContain('版本发布')
     expect(wrapper.get('[role="tablist"]').text()).toContain('资源下载')
-    expect(wrapper.get('[role="tablist"]').text()).toContain('常见问题')
+    expect(wrapper.get('[role="tablist"]').text()).not.toContain('常见问题')
     expect(wrapper.get('[role="tabpanel"]').attributes('data-portal-panel')).toBe('overview')
   })
 
   it('从 hash 恢复活动 Tab，并对未知 hash 回退到产品概览', async () => {
     const router = createTestRouter()
-    await router.push('/releases#faq')
+    await router.push('/releases#releases')
     await router.isReady()
     const wrapper = mount(ReleasePortalView, {
       global: { plugins: [router] },
     })
 
-    expect(wrapper.get('[data-portal-tab="faq"]').attributes('aria-selected')).toBe('true')
-    expect(wrapper.get('[role="tabpanel"]').attributes('data-portal-panel')).toBe('faq')
+    expect(wrapper.get('[data-portal-tab="releases"]').attributes('aria-selected')).toBe('true')
+    expect(wrapper.get('[role="tabpanel"]').attributes('data-portal-panel')).toBe('releases')
 
     await router.replace('/releases#unknown')
     await flushPromises()
@@ -66,7 +66,7 @@ describe('Release Portal 路由', () => {
     wrapper.unmount()
   })
 
-  it('支持使用方向键在五个 Tab 间循环切换', async () => {
+  it('支持使用方向键在四个 Tab 间循环切换', async () => {
     const router = createTestRouter()
     await router.push('/releases')
     await router.isReady()
@@ -77,10 +77,10 @@ describe('Release Portal 路由', () => {
 
     await wrapper.get('[data-portal-tab="overview"]').trigger('keydown', { key: 'ArrowLeft' })
     await flushPromises()
-    expect(router.currentRoute.value.hash).toBe('#faq')
-    expect(document.activeElement?.getAttribute('data-portal-tab')).toBe('faq')
+    expect(router.currentRoute.value.hash).toBe('#downloads')
+    expect(document.activeElement?.getAttribute('data-portal-tab')).toBe('downloads')
 
-    await wrapper.get('[data-portal-tab="faq"]').trigger('keydown', { key: 'ArrowRight' })
+    await wrapper.get('[data-portal-tab="downloads"]').trigger('keydown', { key: 'ArrowRight' })
     await flushPromises()
     expect(router.currentRoute.value.hash).toBe('#overview')
     expect(document.activeElement?.getAttribute('data-portal-tab')).toBe('overview')

@@ -270,6 +270,7 @@ const orphanEvents = computed(() => {
           >
             <summary>
               <span>{{ child.productId }}</span>
+              <span>{{ formatDate(child.occurredAt) }}</span>
               <span>{{ changeTypeLabel(child.changeType) }}</span>
               <span>{{ levelLabel(child.level) }}</span>
               <strong>{{ localized(child.title) }}</strong>
@@ -295,6 +296,7 @@ const orphanEvents = computed(() => {
       >
         <summary>
           <span>{{ event.productId }}</span>
+          <span>{{ formatDate(event.occurredAt) }}</span>
           <span>{{ changeTypeLabel(event.changeType) }}</span>
           <span>{{ levelLabel(event.level) }}</span>
           <strong>{{ localized(event.title) }}</strong>

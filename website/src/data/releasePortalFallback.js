@@ -7,19 +7,19 @@ const fallbackProducts = [
   },
   {
     productId: 'spec-agent',
-    name: { zh: 'Spec Agent', en: 'Spec Agent' },
+    name: { zh: '谱学分析平台', en: 'Spec Agent' },
     entryType: 'web',
     webUrl: null,
   },
   {
     productId: 'poly-agent',
-    name: { zh: 'Poly Agent', en: 'Poly Agent' },
+    name: { zh: '高分子研发平台', en: 'Poly Agent' },
     entryType: 'web',
     webUrl: null,
   },
   {
     productId: 'speclabos',
-    name: { zh: 'SpecLabOS', en: 'SpecLabOS' },
+    name: { zh: '实验室管理系统', en: 'SpecLabOS' },
     entryType: 'web',
     webUrl: null,
   },
