@@ -1,8 +1,9 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 import { brand } from '../data/site'
 import { getLatestStableRelease } from '../services/releasePortal'
+import ReleaseReadmeModal from './ReleaseReadmeModal.vue'
 
 const props = defineProps({
   products: {
@@ -20,6 +21,8 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['select-product'])
+
+const activeReadmeProduct = ref(null)
 
 /** 读取双语字段，并在字段不完整时保持空值。
  *
@@ -96,6 +99,7 @@ const copy = computed(() => (props.language === 'en'
       title: 'SynlysAI Products and Services',
       open: 'Open platform',
       viewDownloads: 'View downloads',
+      viewInfo: 'View product info',
       unavailable: 'Entry pending',
       noRelease: 'No public release yet',
       latest: 'Latest stable',
@@ -106,6 +110,7 @@ const copy = computed(() => (props.language === 'en'
       title: 'SynlysAI 产品与服务',
       open: '打开平台',
       viewDownloads: '查看下载',
+      viewInfo: '查看产品信息',
       unavailable: '入口待确认',
       noRelease: '暂无公开版本',
       latest: '最新稳定版',
@@ -196,6 +201,14 @@ const selectDownloadProduct = (productId) => {
         </div>
 
         <div class="release-product-card__footer">
+          <button
+            type="button"
+            class="syn-button syn-button--ghost release-product-card__action"
+            :data-readme-button="product.id"
+            @click="activeReadmeProduct = product"
+          >
+            {{ copy.viewInfo }}
+          </button>
           <a
             v-if="product.knownEntry && product.entryType === 'web' && product.webUrl"
             class="syn-button syn-button--ghost release-product-card__action"
@@ -220,5 +233,13 @@ const selectDownloadProduct = (productId) => {
         </div>
       </article>
     </div>
+
+    <ReleaseReadmeModal
+      v-if="activeReadmeProduct"
+      :product-id="activeReadmeProduct.id"
+      :product-name="activeReadmeProduct.name"
+      :language="language"
+      @close="activeReadmeProduct = null"
+    />
   </section>
 </template>

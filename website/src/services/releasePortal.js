@@ -208,6 +208,32 @@ export const getLatestStableRelease = (releases = [], productId) => (
 )
 
 /**
+ * 按产品 ID 获取 README 内容。
+ *
+ * @param {string} productId 产品 ID。
+ * @param {object} [options] 请求选项。
+ * @param {AbortSignal} [options.signal] 取消信号。
+ * @returns {Promise<object>} README 数据或错误信息。
+ */
+export const fetchProductReadme = async (productId, { signal } = {}) => {
+  try {
+    const response = await fetch(`/api/product-readme?id=${encodeURIComponent(productId)}`, {
+      headers: { Accept: 'application/json' },
+      signal,
+    })
+
+    if (!response.ok) {
+      return { ok: false, content: '', error: response.status === 404 ? '该产品暂无 README' : 'README 请求失败' }
+    }
+
+    const data = await response.json()
+    return { ok: true, content: data.content || '', fetchedAt: data.fetchedAt || null, error: null }
+  } catch {
+    return { ok: false, content: '', error: 'README 请求失败' }
+  }
+}
+
+/**
  * 将 manifest 内的相对下载路径转换为同域下载地址。
  *
  * @param {object} asset 下载资源。
