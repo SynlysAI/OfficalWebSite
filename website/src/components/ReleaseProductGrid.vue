@@ -52,6 +52,17 @@ const categoryLabels = {
   'developer-tools': { zh: '开发者工具', en: 'Developer Tools' },
 }
 
+/** 各产品操作指导文档（飞书知识库）。
+ * R2 manifest 尚未下发 guideUrl 字段时的前端兜底映射，字段下发后优先生效。 */
+const PRODUCT_GUIDE_URLS = {
+  ai4ms: 'https://gcnpf55d0gns.feishu.cn/wiki/Cvhfwf7FPimLSEkWvgKcF5Yfn8c?fromScene=spaceOverview',
+  'spec-agent': 'https://gcnpf55d0gns.feishu.cn/wiki/Cvhfwf7FPimLSEkWvgKcF5Yfn8c',
+  'poly-agent': 'https://gcnpf55d0gns.feishu.cn/wiki/OdYgwuFCaijJ1wk2e8icmgTVnbO',
+  speclabos: 'https://gcnpf55d0gns.feishu.cn/wiki/GL3hw28soir3KKkno8Rc7CVHnzc',
+  ragportal: 'https://gcnpf55d0gns.feishu.cn/wiki/ZNANwsqxBiNnhUkjKl0cjKacnMh',
+  smartaccess: 'https://gcnpf55d0gns.feishu.cn/wiki/QzunwAUNLi6gc7kSA2JcciLvnke',
+}
+
 /** 解析产品分类标签，未知分类回退为原始值。
  *
  * @param {unknown} category manifest 分类字段。
@@ -100,6 +111,7 @@ const copy = computed(() => (props.language === 'en'
       open: 'Open platform',
       viewDownloads: 'View downloads',
       viewInfo: 'View product info',
+      viewGuide: 'User guide',
       unavailable: 'Entry pending',
       noRelease: 'No public release yet',
       latest: 'Latest stable',
@@ -111,6 +123,7 @@ const copy = computed(() => (props.language === 'en'
       open: '打开平台',
       viewDownloads: '查看下载',
       viewInfo: '查看产品信息',
+      viewGuide: '操作指导',
       unavailable: '入口待确认',
       noRelease: '暂无公开版本',
       latest: '最新稳定版',
@@ -134,6 +147,9 @@ const normalizedProducts = computed(() => props.products.map((product) => {
     entryType,
     knownEntry,
     latestRelease,
+    guideUrl: typeof product?.guideUrl === 'string' && product.guideUrl
+      ? product.guideUrl
+      : (PRODUCT_GUIDE_URLS[productId] || ''),
     name: localized(product?.name, props.language),
     alternateName: localized(product?.name, props.language === 'en' ? 'zh' : 'en'),
     category: resolveCategory(product?.category, props.language),
@@ -209,6 +225,16 @@ const selectDownloadProduct = (productId) => {
           >
             {{ copy.viewInfo }}
           </button>
+          <a
+            v-if="product.guideUrl"
+            class="syn-button syn-button--ghost release-product-card__action"
+            :href="product.guideUrl"
+            target="_blank"
+            rel="noreferrer"
+            :data-guide-button="product.id"
+          >
+            {{ copy.viewGuide }}
+          </a>
           <a
             v-if="product.knownEntry && product.entryType === 'web' && product.webUrl"
             class="syn-button syn-button--ghost release-product-card__action"
