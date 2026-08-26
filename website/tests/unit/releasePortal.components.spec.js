@@ -86,7 +86,7 @@ describe('ReleaseProductGrid', () => {
     expect(cards[1].text()).toContain('v1.0.0')
     const cardLinks = cards[0].findAll('a').map((link) => link.attributes('href'))
     expect(cardLinks).toContain('https://example.com/ai4ms')
-    expect(cardLinks).toContain('https://gcnpf55d0gns.feishu.cn/wiki/Cvhfwf7FPimLSEkWvgKcF5Yfn8c?fromScene=spaceOverview')
+    expect(cardLinks).toContain('https://gcnpf55d0gns.feishu.cn/wiki/QahEwHcyAi7HrNkpr7ncEI8Xnqf')
   })
 
   it('下载入口只选择产品并跳到下载区', async () => {

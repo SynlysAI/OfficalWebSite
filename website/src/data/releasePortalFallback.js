@@ -4,7 +4,7 @@ const fallbackProducts = [
     name: { zh: 'AI4MS', en: 'AI4MS' },
     entryType: 'web',
     webUrl: 'https://ai4ms.xmuzc.com/',
-    guideUrl: 'https://gcnpf55d0gns.feishu.cn/wiki/Cvhfwf7FPimLSEkWvgKcF5Yfn8c?fromScene=spaceOverview',
+    guideUrl: 'https://gcnpf55d0gns.feishu.cn/wiki/QahEwHcyAi7HrNkpr7ncEI8Xnqf',
   },
   {
     productId: 'spec-agent',

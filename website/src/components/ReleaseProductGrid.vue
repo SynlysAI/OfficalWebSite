@@ -55,7 +55,7 @@ const categoryLabels = {
 /** 各产品操作指导文档（飞书知识库）。
  * R2 manifest 尚未下发 guideUrl 字段时的前端兜底映射，字段下发后优先生效。 */
 const PRODUCT_GUIDE_URLS = {
-  ai4ms: 'https://gcnpf55d0gns.feishu.cn/wiki/Cvhfwf7FPimLSEkWvgKcF5Yfn8c?fromScene=spaceOverview',
+  ai4ms: 'https://gcnpf55d0gns.feishu.cn/wiki/QahEwHcyAi7HrNkpr7ncEI8Xnqf',
   'spec-agent': 'https://gcnpf55d0gns.feishu.cn/wiki/Cvhfwf7FPimLSEkWvgKcF5Yfn8c',
   'poly-agent': 'https://gcnpf55d0gns.feishu.cn/wiki/OdYgwuFCaijJ1wk2e8icmgTVnbO',
   speclabos: 'https://gcnpf55d0gns.feishu.cn/wiki/GL3hw28soir3KKkno8Rc7CVHnzc',
