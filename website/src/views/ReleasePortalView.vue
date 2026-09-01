@@ -7,11 +7,12 @@ import ReleaseFilters from '../components/ReleaseFilters.vue'
 import ReleaseDownloadCenter from '../components/ReleaseDownloadCenter.vue'
 import ReleaseProductGrid from '../components/ReleaseProductGrid.vue'
 import ReleaseTimeline from '../components/ReleaseTimeline.vue'
+import ReleaseVideoCenter from '../components/ReleaseVideoCenter.vue'
 import { releasePortalCopy } from '../data/releasePortal'
 import { releasePortalFallback } from '../data/releasePortalFallback'
 import { fetchReleaseManifest, filterTimeline } from '../services/releasePortal'
 
-const PORTAL_TAB_IDS = ['overview', 'evolution', 'releases', 'downloads']
+const PORTAL_TAB_IDS = ['overview', 'evolution', 'releases', 'downloads', 'videos']
 
 const route = useRoute()
 const router = useRouter()
@@ -277,6 +278,12 @@ onMounted(loadManifest)
             :releases="manifest.releases"
             :language="language"
             :product-id="selectedProduct"
+          />
+
+          <ReleaseVideoCenter
+            v-else-if="activeTab === 'videos'"
+            :products="manifest.products"
+            :language="language"
           />
         </div>
       </div>

@@ -7,3 +7,6 @@ node_modules/
 /website/.wrangler/
 /website/_worker.bundle
 /website/test-results/
+/docs/vedios/
+.playwright-cli
+.idea

@@ -52,6 +52,12 @@ export const releasePortalCopy = {
       support: '联系支持',
       empty: '暂无可下载版本',
     },
+    videos: {
+      title: '平台介绍视频',
+      eyebrow: '产品演示',
+      empty: '暂无介绍视频',
+      unsupported: '当前浏览器不支持视频播放',
+    },
     faq: {
       title: '常见问题',
       search: '搜索问题或答案',
@@ -124,6 +130,12 @@ export const releasePortalCopy = {
       retry: 'Retry',
       support: 'Contact support',
       empty: 'No downloads available',
+    },
+    videos: {
+      title: 'Platform intro videos',
+      eyebrow: 'Product demos',
+      empty: 'No intro videos available',
+      unsupported: 'Your browser does not support video playback',
     },
     faq: {
       title: 'Frequently asked questions',

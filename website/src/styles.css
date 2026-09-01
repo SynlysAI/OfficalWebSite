@@ -1174,8 +1174,8 @@ a:focus-visible {
 
 .release-portal-tabs {
   display: grid;
-  grid-template-columns: repeat(4, minmax(132px, 1fr));
-  min-width: 528px;
+  grid-template-columns: repeat(5, minmax(112px, 1fr));
+  min-width: 560px;
 }
 
 .release-portal-tabs button {
@@ -1232,6 +1232,7 @@ a:focus-visible {
 .release-portal-panel > .release-filters,
 .release-portal-panel > .release-timeline-section,
 .release-portal-panel > .release-downloads,
+.release-portal-panel > .release-videos,
 .release-portal-panel > .release-faq {
   margin-top: 0;
 }
@@ -1395,9 +1396,9 @@ a:focus-visible {
 
 .release-product-card__version strong {
   min-width: 0;
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   overflow-wrap: anywhere;
 }
 
@@ -2169,6 +2170,104 @@ a:focus-visible {
 .release-download-asset__error a {
   color: var(--primary-strong);
   font-weight: 600;
+}
+
+.release-videos {
+  margin-top: 52px;
+  scroll-margin-top: 108px;
+}
+
+.release-videos__head h2 {
+  margin: 9px 0 0;
+  font-family: var(--font-heading);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: 0;
+}
+
+.release-videos__switch {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 26px;
+}
+
+.release-videos__switch button {
+  padding: 8px 18px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  color: var(--text-muted);
+  background: var(--surface);
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.35;
+  white-space: nowrap;
+  transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+
+.release-videos__switch button:hover {
+  color: var(--primary-strong);
+  border-color: var(--primary);
+}
+
+.release-videos__switch button.is-active {
+  color: #fff;
+  border-color: var(--primary);
+  background: var(--primary);
+  font-weight: 600;
+}
+
+.release-videos__switch button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.release-video-card--featured {
+  margin-top: 18px;
+}
+
+.release-video-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.release-video-card__media {
+  background: #0b1526;
+}
+
+.release-video-card__media video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+}
+
+.release-video-card__meta {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 14px 14px;
+}
+
+.release-video-card__meta strong {
+  color: var(--text);
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.release-video-card__meta span {
+  color: var(--text-muted);
+  font-family: var(--font-ui);
+  font-size: 12px;
 }
 
 .release-faq {
